@@ -6,11 +6,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   switch (request.action) {
     case "getData":
       sendResponse({
-        poji: document.querySelector("#txt2img_prompt textarea").value
+        poji: document.querySelector("gradio-app").shadowRoot.querySelector("#txt2img_prompt textarea").value
       })
       break;
     case "setData":
-      document.querySelector("#txt2img_prompt textarea").value = request.poji;
+      document.querySelector("gradio-app").shadowRoot.querySelector("#txt2img_prompt textarea").value = request.poji;
       sendResponse({success: true});
       break;
   }
