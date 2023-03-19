@@ -39,17 +39,18 @@ const setData = () => {
   for (let id in appData.tagList) {
     let item = appData.tagList[id];
     if (item.selected) {
-      arr[id] = item.value;
+      arr.push(item.value);
+      // arr[id] = item.value;
     }
   }
-  console.log(arr.filter(v => v).join(","));
+  // console.log(arr.filter(v => v).join(","));
 
   chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
     chrome.tabs.sendMessage(
       tabs[0].id,
       {
         action: "setData",
-        poji: arr.filter(v => v).join(",")
+        poji: arr.join(",")
       },
       (response: any) => {
         console.log(response.poji);
