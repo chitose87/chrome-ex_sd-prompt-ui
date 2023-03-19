@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="sample.css">
+</head>
+<body>
+<div id="tab_txt2img" class="tabitem p-2 border-2 border-t-0 border-gray-200 relative flex" style="display: block;">
+    <div id="" class="flex flex-col relative col gap-4" style="min-width: min(0px, 100%); flex-grow: 1">
+        <div class="flex row w-full flex-wrap gap-4 gr-compact" id="txt2img_toprow">
+            <div id="txt2img_prompt_container" class="flex flex-col relative col gap-4"
+                 style="min-width: min(320px, 100%); flex-grow: 6">
+                <div class="flex row w-full flex-wrap gap-4" id="component-3">
+                    <div id="component-4" class="flex flex-col relative col gap-4"
+                         style="min-width: min(320px, 100%); flex-grow: 80">
+                        <div class="flex row w-full flex-wrap gap-4" id="component-5">
+                            <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                 style="flex-direction: inherit; position: relative;">
+                                <div id="txt2img_token_counter"
+                                     class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded token-counter"
+                                     title="">
+                                    <div class="wrap svelte-5usjvi inset-x-0 top-0 opacity-0"></div>
+                                    <div class="transition">
+                                        <div class="output-html" id="txt2img_token_counter"><span
+                                                class="gr-box gr-text-input">73/75</span></div>
+                                    </div>
+                                </div>
+                                <div id="txt2img_prompt"
+                                     class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                    <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                    <label class="block w-full"><span
+                                            class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40 sr-only h-0 !m-0">Prompt</span>
+                                        <textarea data-testid="textbox"
+                                                  class="scroll-hide block gr-box gr-input w-full gr-text-input"
+                                                  placeholder="Prompt (press Ctrl+Enter or Alt+Enter to generate)"
+                                                  rows="3" style="overflow-y: scroll; height: 84px;"></textarea></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex row w-full flex-wrap gap-4" id="component-8">
+                    <div id="component-9" class="flex flex-col relative col gap-4"
+                         style="min-width: min(320px, 100%); flex-grow: 80">
+                        <div class="flex row w-full flex-wrap gap-4" id="component-10">
+                            <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                 style="flex-direction: inherit; position: relative;">
+                                <div id="txt2img_negative_token_counter"
+                                     class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded token-counter"
+                                     title="">
+                                    <div class="wrap svelte-5usjvi inset-x-0 top-0 opacity-0"></div>
+                                    <div class="transition">
+                                        <div class="output-html" id="txt2img_negative_token_counter"><span
+                                                class="gr-box gr-text-input">39/75</span></div>
+                                    </div>
+                                </div>
+                                <div id="txt2img_neg_prompt"
+                                     class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                    <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                    <label class="block w-full"><span
+                                            class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40 sr-only h-0 !m-0">Negative prompt</span>
+                                        <textarea data-testid="textbox"
+                                                  class="scroll-hide block gr-box gr-input w-full gr-text-input"
+                                                  placeholder="Negative prompt (press Ctrl+Enter or Alt+Enter to generate)"
+                                                  rows="2" style="overflow-y: scroll; height: 63px;"></textarea></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="txt2img_actions_column" class="flex flex-col relative col gap-4"
+                 style="min-width: min(320px, 100%); flex-grow: 1">
+                <div class="flex row w-full flex-wrap gap-4" id="txt2img_generate_box">
+                    <button class="gr-button gr-button-lg gr-button-secondary" id="txt2img_interrupt"
+                            title="Stop processing images and return any results accumulated so far."
+                            style="display: none;">Interrupt
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-secondary" id="txt2img_skip"
+                            title="Stop processing current image and continue processing." style="display: none;">Skip
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-primary" id="txt2img_generate">Generate</button>
+                </div>
+                <div class="flex row w-full flex-wrap gap-4" id="txt2img_tools">
+                    <button class="gr-button gr-button-lg gr-button-tool" id="paste"
+                            title="Read generation parameters from prompt or last generation if prompt is empty into user interface.">
+                        ↙️
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-tool" id="txt2img_clear_prompt"
+                            title="Clear prompt">🗑
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-tool" id="txt2img_extra_networks"
+                            title="Show extra networks">🎴
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-tool" id="txt2img_style_apply"
+                            title="Apply selected styles to current prompt">📋
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-tool" id="txt2img_style_create" title="Save style">
+                        💾
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-secondary !hidden" id="txt2img_token_button">Run
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-secondary !hidden"
+                            id="txt2img_negative_token_button">Run
+                    </button>
+                </div>
+                <div class="flex row w-full flex-wrap gap-4" id="txt2img_styles_row">
+                    <div id="txt2img_styles"
+                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                        <label><span class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Styles</span>
+                            <div class="relative border rounded-md">
+                                <div class="items-center flex flex-wrap relative">
+                                    <div class="items-center flex flex-1 min-w-min border-none"><input
+                                            class="border-none bg-inherit ml-2 text-lg w-full outline-none text-gray-700 dark:text-white disabled:cursor-not-allowed"
+                                            autocomplete="off" placeholder="">
+                                        <div class="remove-all items-center bg-gray-400 dark:bg-gray-700 rounded-full fill-white flex justify-center h-5 ml-1 min-w-min disabled:hidden p-0.5 hidden"
+                                             title="Remove All">
+                                            <svg class="icon-clear" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                 height="16" viewBox="0 0 24 24">
+                                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                                            </svg>
+                                        </div>
+                                        <svg class="dropdown-arrow mr-2 min-w-min fill-gray-500 dark:fill-white"
+                                             xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                             viewBox="0 0 18 18">
+                                            <path d="M5 8l4 4 4-4z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </label></div>
+                    <button class="gr-button gr-button-lg gr-button-tool" id="refresh_txt2img_styles">🔄</button>
+                </div>
+            </div>
+        </div>
+        <div data-testid="label" id="component-31"
+             class="gr-block gr-box relative w-full border-solid border border-gray-200 !hidden gr-padded">
+            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+            <div class="absolute left-0 top-0 py-1 px-2 rounded-br-lg shadow-sm text-xs text-gray-500 flex items-center pointer-events-none bg-white z-20 border-b border-r border-gray-100 dark:bg-gray-900">
+                <span class="mr-2 h-[12px] w-[12px] opacity-80"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                     aria-hidden="true" role="img"
+                                                                     class="iconify iconify--carbon" width="100%"
+                                                                     height="100%" preserveAspectRatio="xMidYMid meet"
+                                                                     viewBox="0 0 32 32"><path fill="currentColor"
+                                                                                               d="M4 2H2v26a2 2 0 0 0 2 2h26v-2H4v-3h22v-8H4v-4h14V5H4Zm20 17v4H4v-4ZM16 7v4H4V7Z"></path></svg></span>
+                Label
+            </div>
+            <div class="h-full min-h-[6rem] flex justify-center items-center">
+                <div class="h-5 dark:text-white opacity-50">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                         aria-hidden="true" role="img" class="iconify iconify--carbon" width="100%" height="100%"
+                         preserveAspectRatio="xMidYMid meet" viewBox="0 0 32 32">
+                        <path fill="currentColor"
+                              d="M4 2H2v26a2 2 0 0 0 2 2h26v-2H4v-3h22v-8H4v-4h14V5H4Zm20 17v4H4v-4ZM16 7v4H4V7Z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div id="txt2img_prompt_image"
+             class="gr-block gr-box relative w-full border-dashed border border-gray-300 border-gray-200 !hidden">
+            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+            <div class="absolute left-0 top-0 py-1 px-2 rounded-br-lg shadow-sm text-xs text-gray-500 flex items-center pointer-events-none bg-white z-20 border-b border-r border-gray-100 dark:bg-gray-900">
+                <span class="mr-2 h-[12px] w-[12px] opacity-80"><svg xmlns="http://www.w3.org/2000/svg" width="100%"
+                                                                     height="100%" viewBox="0 0 24 24" fill="none"
+                                                                     stroke="currentColor" stroke-width="1.5"
+                                                                     stroke-linecap="round" stroke-linejoin="round"
+                                                                     class="feather feather-file"><path
+                        d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline
+                        points="13 2 13 9 20 9"></polyline></svg></span> File
+            </div>
+            <div class="w-full cursor-pointer h-full items-center justify-center text-gray-400 md:text-xl min-h-[10rem] md:min-h-[15rem] max-h-[15rem] xl:max-h-[18rem] 2xl:max-h-[20rem] text-center flex">
+                ここにファイルをドロップ <br>- または -<br> クリックしてアップロード <input class="hidden-upload hidden" type="file"
+                                                                 accept="file/*"></div>
+        </div>
+        <div class="flex row w-full flex-wrap gap-4 gr-compact !hidden" id="txt2img_extra_networks">
+            <div class="tabs flex flex-col my-4 extra-networks" id="txt2img_extra_tabs">
+                <div class="flex border-b-2 flex-wrap dark:border-gray-700">
+                    <button class="bg-white px-4 pb-2 pt-1.5 rounded-t-lg border-gray-200 -mb-[2px] border-2 border-b-0">
+                        Textual Inversion
+                    </button>
+                    <button class="px-4 pb-2 pt-1.5 border-transparent text-gray-400 hover:text-gray-700 -mb-[2px] border-2 border-b-0">
+                        Hypernetworks
+                    </button>
+                    <button class="px-4 pb-2 pt-1.5 border-transparent text-gray-400 hover:text-gray-700 -mb-[2px] border-2 border-b-0">
+                        Checkpoints
+                    </button>
+                    <button class="px-4 pb-2 pt-1.5 border-transparent text-gray-400 hover:text-gray-700 -mb-[2px] border-2 border-b-0">
+                        Lora
+                    </button>
+                    <textarea data-testid="textbox"
+                              class="scroll-hide block gr-box gr-input w-full gr-text-input search"
+                              placeholder="Search..." rows="1" style="overflow-y: scroll; height: 42px;"></textarea>
+                    <button class="gr-button gr-button-lg gr-button-secondary" id="txt2img_extra_refresh">Refresh
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-secondary" id="txt2img_extra_close">Close</button>
+                </div>
+                <div id="component-35" class="tabitem p-2 border-2 border-t-0 border-gray-200 relative flex"
+                     style="display: block;">
+                    <div id="" class="flex flex-col relative col gap-4" style="min-width: min(0px, 100%); flex-grow: 1">
+                        <div id="component-36"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded">
+                            <div class="wrap svelte-5usjvi inset-x-0 top-0 opacity-0"></div>
+                            <div class="transition">
+                                <div class="output-html" id="component-36">
+                                    <div id="txt2img_textual_inversion_subdirs"
+                                         class="extra-network-subdirs extra-network-subdirs-cards">
+
+                                    </div>
+                                    <div id="txt2img_textual_inversion_cards" class="extra-network-cards">
+                                        <div class="nocards">
+                                            <h1>Nothing here. Add some content to the following directories:</h1>
+
+                                            <ul>
+                                                <li>C:\vm-ai\stable-diffusion-webui\embeddings</li>
+                                            </ul>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="component-37" class="tabitem p-2 border-2 border-t-0 border-gray-200 relative flex"
+                     style="display: none;">
+                    <div id="" class="flex flex-col relative col gap-4" style="min-width: min(0px, 100%); flex-grow: 1">
+                        <div id="component-38"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded">
+                            <div class="wrap svelte-5usjvi inset-x-0 top-0 opacity-0"></div>
+                            <div class="transition">
+                                <div class="output-html" id="component-38">
+                                    <div id="txt2img_hypernetworks_subdirs"
+                                         class="extra-network-subdirs extra-network-subdirs-cards">
+
+                                    </div>
+                                    <div id="txt2img_hypernetworks_cards" class="extra-network-cards">
+                                        <div class="nocards">
+                                            <h1>Nothing here. Add some content to the following directories:</h1>
+
+                                            <ul>
+                                                <li>C:\vm-ai\stable-diffusion-webui\models\hypernetworks</li>
+                                            </ul>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="component-39" class="tabitem p-2 border-2 border-t-0 border-gray-200 relative flex"
+                     style="display: none;">
+                    <div id="" class="flex flex-col relative col gap-4" style="min-width: min(0px, 100%); flex-grow: 1">
+                        <div id="component-40"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded">
+                            <div class="wrap svelte-5usjvi inset-x-0 top-0 opacity-0"></div>
+                            <div class="transition">
+                                <div class="output-html" id="component-40">
+                                    <div id="txt2img_checkpoints_subdirs"
+                                         class="extra-network-subdirs extra-network-subdirs-cards">
+
+                                    </div>
+                                    <div id="txt2img_checkpoints_cards" class="extra-network-cards">
+                                        <div class="card"
+                                             onclick="return selectCheckpoint(&quot;chilloutmix_NiPrunedFp32Fix.safetensors [fc2511737a]&quot;)">
+                                            <div class="actions">
+                                                <div class="additional">
+                                                    <ul>
+                                                        <a href="#"
+                                                           title="replace preview image with currently selected in gallery"
+                                                           onclick="return saveCardPreview(event, &quot;txt2img&quot;, &quot;C:\\vm-ai\\stable-diffusion-webui\\models\\Stable-diffusion\\chilloutmix_NiPrunedFp32Fix.png&quot;)"
+                                                           target="_blank">replace preview</a>
+                                                    </ul>
+                                                    <span style="display:none" class="search_term">/chilloutmix_NiPrunedFp32Fix.safetensors fc2511737a54c5e80b89ab03e0ab4b98d051ab187f92860f3cd664dc9d08b271</span>
+                                                </div>
+                                                <span class="name">chilloutmix_NiPrunedFp32Fix</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="card"
+                                             onclick="return selectCheckpoint(&quot;v2-1_512-ema-pruned.ckpt&quot;)">
+                                            <div class="actions">
+                                                <div class="additional">
+                                                    <ul>
+                                                        <a href="#"
+                                                           title="replace preview image with currently selected in gallery"
+                                                           onclick="return saveCardPreview(event, &quot;txt2img&quot;, &quot;C:\\vm-ai\\stable-diffusion-webui\\models\\Stable-diffusion\\v2-1_512-ema-pruned.png&quot;)"
+                                                           target="_blank">replace preview</a>
+                                                    </ul>
+                                                    <span style="display:none" class="search_term">/v2-1_512-ema-pruned.ckpt </span>
+                                                </div>
+                                                <span class="name">v2-1_512-ema-pruned</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="card"
+                                             onclick="return selectCheckpoint(&quot;v1-5-pruned-emaonly.safetensors [6ce0161689]&quot;)">
+                                            <div class="actions">
+                                                <div class="additional">
+                                                    <ul>
+                                                        <a href="#"
+                                                           title="replace preview image with currently selected in gallery"
+                                                           onclick="return saveCardPreview(event, &quot;txt2img&quot;, &quot;C:\\vm-ai\\stable-diffusion-webui\\models\\Stable-diffusion\\v1-5-pruned-emaonly.png&quot;)"
+                                                           target="_blank">replace preview</a>
+                                                    </ul>
+                                                    <span style="display:none" class="search_term">/v1-5-pruned-emaonly.safetensors 6ce0161689b3853acaa03779ec93eafe75a02f4ced659bee03f50797806fa2fa</span>
+                                                </div>
+                                                <span class="name">v1-5-pruned-emaonly</span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="component-41" class="tabitem p-2 border-2 border-t-0 border-gray-200 relative flex"
+                     style="display: none;">
+                    <div id="" class="flex flex-col relative col gap-4" style="min-width: min(0px, 100%); flex-grow: 1">
+                        <div id="component-42"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded">
+                            <div class="wrap svelte-5usjvi inset-x-0 top-0 opacity-0"></div>
+                            <div class="transition">
+                                <div class="output-html" id="component-42">
+                                    <div id="txt2img_lora_subdirs"
+                                         class="extra-network-subdirs extra-network-subdirs-cards">
+
+                                        <button class="gr-button gr-button-lg gr-button-secondary search-all"
+                                                onclick="extraNetworksSearchButton(&quot;txt2img_extra_tabs&quot;, event)">
+                                            all
+                                        </button>
+
+                                        <button class="gr-button gr-button-lg gr-button-secondary"
+                                                onclick="extraNetworksSearchButton(&quot;txt2img_extra_tabs&quot;, event)">
+                                            sample
+                                        </button>
+
+                                    </div>
+                                    <div id="txt2img_lora_cards" class="extra-network-cards">
+                                        <div class="card"
+                                             onclick="return cardClicked(&quot;txt2img&quot;, &quot;<lora:chitose_midori:&quot; + opts.extra_networks_default_multiplier + &quot;>&quot;, false)">
+                                            <div class="actions">
+                                                <div class="additional">
+                                                    <ul>
+                                                        <a href="#"
+                                                           title="replace preview image with currently selected in gallery"
+                                                           onclick="return saveCardPreview(event, &quot;txt2img&quot;, &quot;C:\\vm-ai\\stable-diffusion-webui\\models\\Lora\\chitose_midori.png&quot;)"
+                                                           target="_blank">replace preview</a>
+                                                    </ul>
+                                                    <span style="display:none" class="search_term">/chitose_midori.safetensors</span>
+                                                </div>
+                                                <span class="name">chitose_midori</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="card"
+                                             onclick="return cardClicked(&quot;txt2img&quot;, &quot;<lora:fav_girl_v1:&quot; + opts.extra_networks_default_multiplier + &quot;>&quot;, false)">
+                                            <div class="actions">
+                                                <div class="additional">
+                                                    <ul>
+                                                        <a href="#"
+                                                           title="replace preview image with currently selected in gallery"
+                                                           onclick="return saveCardPreview(event, &quot;txt2img&quot;, &quot;C:\\vm-ai\\stable-diffusion-webui\\models\\Lora\\fav_girl_v1.png&quot;)"
+                                                           target="_blank">replace preview</a>
+                                                    </ul>
+                                                    <span style="display:none" class="search_term">/fav_girl_v1.safetensors</span>
+                                                </div>
+                                                <span class="name">fav_girl_v1</span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="txt2img_extra_search"
+                 class="gr-block gr-box relative w-full border-solid border border-gray-200 !hidden gr-padded"><label
+                    class="block w-full"><span
+                    class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40 sr-only h-0 !m-0">Textbox</span>
+            </label></div>
+            <button class="gr-button gr-button-lg gr-button-secondary !hidden" id="txt2img_save_preview">Save preview
+            </button>
+            <div id="txt2img_preview_filename"
+                 class="gr-block gr-box relative w-full border-solid border border-gray-200 !hidden gr-padded"><label
+                    class="block w-full"><span
+                    class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Textbox</span>
+                <textarea data-testid="textbox" class="scroll-hide block gr-box gr-input w-full gr-text-input"
+                          placeholder="" rows="1" style="overflow-y: scroll; height: 42px;"></textarea></label></div>
+        </div>
+        <div class="flex row w-full flex-wrap gap-4 unequal-height" id="component-49">
+            <div id="txt2img_settings" class="flex flex-col relative col gap-4 gr-compact"
+                 style="min-width: min(320px, 100%); flex-grow: 1">
+                <div class="flex row w-full flex-wrap gap-4" id="sampler_selection_txt2img">
+                    <div id="txt2img_sampling"
+                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                        <label><span class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                     title="Which algorithm to use to produce the image">Sampling method</span> <select
+                                class="gr-box gr-input w-full disabled:cursor-not-allowed" title="">
+                            <option value="Euler a">Euler a</option>
+                            <option value="Euler">Euler</option>
+                            <option value="LMS">LMS</option>
+                            <option value="Heun">Heun</option>
+                            <option value="DPM2">DPM2</option>
+                            <option value="DPM2 a">DPM2 a</option>
+                            <option value="DPM++ 2S a">DPM++ 2S a</option>
+                            <option value="DPM++ 2M">DPM++ 2M</option>
+                            <option value="DPM++ SDE">DPM++ SDE</option>
+                            <option value="DPM fast">DPM fast</option>
+                            <option value="DPM adaptive">DPM adaptive</option>
+                            <option value="LMS Karras">LMS Karras</option>
+                            <option value="DPM2 Karras">DPM2 Karras</option>
+                            <option value="DPM2 a Karras">DPM2 a Karras</option>
+                            <option value="DPM++ 2S a Karras">DPM++ 2S a Karras</option>
+                            <option value="DPM++ 2M Karras">DPM++ 2M Karras</option>
+                            <option value="DPM++ SDE Karras">DPM++ SDE Karras</option>
+                            <option value="DDIM">DDIM</option>
+                            <option value="PLMS">PLMS</option>
+                            <option value="UniPC">UniPC</option>
+                        </select></label></div>
+                    <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                         style="flex-direction: inherit;">
+                        <div id="txt2img_steps"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="w-full flex flex-col ">
+                                <div class="flex justify-between"><label for="range_id_0"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                        title="How many times to improve the generated image iteratively; higher values take longer; very low values can produce bad results">Sampling steps</span></label>
+                                    <input type="number" class="gr-box gr-input gr-text-input text-center h-6" min="1"
+                                           max="150" step="1"></div>
+                            </div>
+                            <input type="range" id="range_id_0" name="cowbell"
+                                   class="w-full disabled:cursor-not-allowed" min="1" max="150" step="1"></div>
+                    </div>
+                </div>
+                <div class="flex row w-full flex-wrap gap-4 gr-compact" id="txt2img_checkboxes">
+                    <div id="txt2img_restore_faces"
+                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                        <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span class="ml-2">Restore faces</span></label>
+                    </div>
+                    <div id="txt2img_tiling"
+                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                        <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span class="ml-2"
+                                                                                                      title="Produce an image that can be tiled.">Tiling</span></label>
+                    </div>
+                    <div id="txt2img_enable_hr"
+                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                        <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span class="ml-2"
+                                                                                                      title="Use a two step process to partially create an image at smaller resolution, upscale, and then improve details in it without changing composition">Hires. fix</span></label>
+                    </div>
+                    <div id="txtimg_hr_finalres"
+                         class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded">
+                        <div class="wrap svelte-5usjvi inset-x-0 top-0 !hidden opacity-0"></div>
+                        <div class="transition">
+                            <div class="output-html" id="txtimg_hr_finalres"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="txt2img_hires_fix" class="svelte-10ogue4 hidden">
+                    <div class="flex row w-full flex-wrap gap-4 gr-compact" id="txt2img_hires_fix_row1">
+                        <div id="txt2img_hr_upscaler"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <label><span
+                                    class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Upscaler</span>
+                                <select class="gr-box gr-input w-full disabled:cursor-not-allowed">
+                                    <option value="Latent">Latent</option>
+                                    <option value="Latent (antialiased)">Latent (antialiased)</option>
+                                    <option value="Latent (bicubic)">Latent (bicubic)</option>
+                                    <option value="Latent (bicubic antialiased)">Latent (bicubic antialiased)</option>
+                                    <option value="Latent (nearest)">Latent (nearest)</option>
+                                    <option value="Latent (nearest-exact)">Latent (nearest-exact)</option>
+                                    <option value="None">None</option>
+                                    <option value="Lanczos">Lanczos</option>
+                                    <option value="Nearest">Nearest</option>
+                                    <option value="ESRGAN_4x">ESRGAN_4x</option>
+                                    <option value="R-ESRGAN 4x+">R-ESRGAN 4x+</option>
+                                    <option value="R-ESRGAN 4x+ Anime6B">R-ESRGAN 4x+ Anime6B</option>
+                                    <option value="LDSR">LDSR</option>
+                                    <option value="ScuNET GAN">ScuNET GAN</option>
+                                    <option value="ScuNET PSNR">ScuNET PSNR</option>
+                                    <option value="SwinIR 4x">SwinIR 4x</option>
+                                </select></label></div>
+                        <div id="txt2img_hires_steps"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="w-full flex flex-col ">
+                                <div class="flex justify-between"><label for="range_id_1"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                        title="Number of sampling steps for upscaled picture. If 0, uses same as for original.">Hires steps</span></label>
+                                    <input type="number" class="gr-box gr-input gr-text-input text-center h-6" min="0"
+                                           max="150" step="1"></div>
+                            </div>
+                            <input type="range" id="range_id_1" name="cowbell"
+                                   class="w-full disabled:cursor-not-allowed" min="0" max="150" step="1"></div>
+                        <div id="txt2img_denoising_strength"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="w-full flex flex-col ">
+                                <div class="flex justify-between"><label for="range_id_2"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                        title="Determines how little respect the algorithm should have for image's content. At 0, nothing will change, and at 1 you'll get an unrelated image. With values below 1.0, processing will take less steps than the Sampling Steps slider specifies.">Denoising strength</span></label>
+                                    <input type="number" class="gr-box gr-input gr-text-input text-center h-6" min="0"
+                                           max="1" step="0.01"></div>
+                            </div>
+                            <input type="range" id="range_id_2" name="cowbell"
+                                   class="w-full disabled:cursor-not-allowed" min="0" max="1" step="0.01"></div>
+                    </div>
+                    <div class="flex row w-full flex-wrap gap-4 gr-compact" id="txt2img_hires_fix_row2">
+                        <div id="txt2img_hr_scale"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="w-full flex flex-col ">
+                                <div class="flex justify-between"><label for="range_id_3"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                        title="Adjusts the size of the image by multiplying the original width and height by the selected value. Ignored if either Resize width to or Resize height to are non-zero.">Upscale by</span></label>
+                                    <input type="number" class="gr-box gr-input gr-text-input text-center h-6" min="1"
+                                           max="4" step="0.05"></div>
+                            </div>
+                            <input type="range" id="range_id_3" name="cowbell"
+                                   class="w-full disabled:cursor-not-allowed" min="1" max="4" step="0.05"></div>
+                        <div id="txt2img_hr_resize_x"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded inactive">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="w-full flex flex-col ">
+                                <div class="flex justify-between"><label for="range_id_4"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                        title="Resizes image to this width. If 0, width is inferred from either of two nearby sliders.">Resize width to</span></label>
+                                    <input type="number" class="gr-box gr-input gr-text-input text-center h-6" min="0"
+                                           max="2048" step="8"></div>
+                            </div>
+                            <input type="range" id="range_id_4" name="cowbell"
+                                   class="w-full disabled:cursor-not-allowed" min="0" max="2048" step="8"></div>
+                        <div id="txt2img_hr_resize_y"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded inactive">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="w-full flex flex-col ">
+                                <div class="flex justify-between"><label for="range_id_5"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                        title="Resizes image to this height. If 0, height is inferred from either of two nearby sliders.">Resize height to</span></label>
+                                    <input type="number" class="gr-box gr-input gr-text-input text-center h-6" min="0"
+                                           max="2048" step="8"></div>
+                            </div>
+                            <input type="range" id="range_id_5" name="cowbell"
+                                   class="w-full disabled:cursor-not-allowed" min="0" max="2048" step="8"></div>
+                    </div>
+                </div>
+                <div class="flex row w-full flex-wrap gap-4" id="component-69">
+                    <div id="txt2img_column_size" class="flex flex-col relative col gap-4"
+                         style="min-width: min(320px, 100%); flex-grow: 4">
+                        <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                             style="flex-direction: inherit;">
+                            <div id="txt2img_width"
+                                 class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                <div class="w-full flex flex-col ">
+                                    <div class="flex justify-between"><label for="range_id_6"><span
+                                            class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Width</span></label>
+                                        <input type="number" class="gr-box gr-input gr-text-input text-center h-6"
+                                               min="64" max="2048" step="8"></div>
+                                </div>
+                                <input type="range" id="range_id_6" name="cowbell"
+                                       class="w-full disabled:cursor-not-allowed" min="64" max="2048" step="8"></div>
+                            <div id="txt2img_height"
+                                 class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                <div class="w-full flex flex-col ">
+                                    <div class="flex justify-between"><label for="range_id_7"><span
+                                            class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Height</span></label>
+                                        <input type="number" class="gr-box gr-input gr-text-input text-center h-6"
+                                               min="64" max="2048" step="8"></div>
+                                </div>
+                                <input type="range" id="range_id_7" name="cowbell"
+                                       class="w-full disabled:cursor-not-allowed" min="64" max="2048" step="8"></div>
+                        </div>
+                    </div>
+                    <button class="gr-button gr-button-lg gr-button-tool" id="txt2img_res_switch_btn">⇅</button>
+                    <div id="txt2img_column_batch" class="flex flex-col relative col gap-4"
+                         style="min-width: min(320px, 100%); flex-grow: 1">
+                        <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                             style="flex-direction: inherit;">
+                            <div id="txt2img_batch_count"
+                                 class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                <div class="w-full flex flex-col ">
+                                    <div class="flex justify-between"><label for="range_id_8"><span
+                                            class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                            title="How many batches of images to create (has no impact on generation performance or VRAM usage)">Batch count</span></label>
+                                        <input type="number" class="gr-box gr-input gr-text-input text-center h-6"
+                                               min="1" max="100" step="1"></div>
+                                </div>
+                                <input type="range" id="range_id_8" name="cowbell"
+                                       class="w-full disabled:cursor-not-allowed" min="1" max="100" step="1"></div>
+                            <div id="txt2img_batch_size"
+                                 class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                <div class="w-full flex flex-col ">
+                                    <div class="flex justify-between"><label for="range_id_9"><span
+                                            class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                            title="How many image to create in a single batch (increases generation performance at cost of higher VRAM usage)">Batch size</span></label>
+                                        <input type="number" class="gr-box gr-input gr-text-input text-center h-6"
+                                               min="1" max="8" step="1"></div>
+                                </div>
+                                <input type="range" id="range_id_9" name="cowbell"
+                                       class="w-full disabled:cursor-not-allowed" min="1" max="8" step="1"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="txt2img_cfg_scale"
+                     class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                    <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                    <div class="w-full flex flex-col ">
+                        <div class="flex justify-between"><label for="range_id_10"><span
+                                class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                title="Classifier Free Guidance Scale - how strongly the image should conform to prompt - lower values produce more creative results">CFG Scale</span></label>
+                            <input type="number" class="gr-box gr-input gr-text-input text-center h-6" min="1" max="30"
+                                   step="0.5"></div>
+                    </div>
+                    <input type="range" id="range_id_10" name="cowbell" class="w-full disabled:cursor-not-allowed"
+                           min="1" max="30" step="0.5"></div>
+                <div class="flex row w-full flex-wrap gap-4" id="txt2img_seed_row">
+                    <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                         style="flex-direction: inherit;">
+                        <div id="txt2img_seed"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <label class="block"><span
+                                    class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                    title="A value that determines the output of random number generator - if you create an image with same parameters and seed as another image, you'll get the same result">Seed</span>
+                                <input type="number" class="gr-box gr-input w-full gr-text-input"></label></div>
+                    </div>
+                    <button class="gr-button gr-button-lg gr-button-secondary" id="txt2img_random_seed"
+                            title="Set seed to -1, which will cause a new random number to be used every time">🎲️
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-secondary" id="txt2img_reuse_seed"
+                            title="Reuse seed from last generation, mostly useful if it was randomed">♻️
+                    </button>
+                    <div id="txt2img_subseed_show_box" class="svelte-10ogue4">
+                        <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                             style="flex-direction: inherit;">
+                            <div id="txt2img_subseed_show"
+                                 class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                        type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span
+                                        class="ml-2">Extra</span></label></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex row w-full flex-wrap gap-4 !hidden" id="txt2img_subseed_row">
+                    <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                         style="flex-direction: inherit;">
+                        <div id="txt2img_subseed"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <label class="block"><span
+                                    class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                    title="Seed of a different picture to be mixed into the generation.">Variation seed</span>
+                                <input type="number" class="gr-box gr-input w-full gr-text-input"></label></div>
+                    </div>
+                    <button class="gr-button gr-button-lg gr-button-secondary" id="txt2img_random_subseed"
+                            title="Set seed to -1, which will cause a new random number to be used every time">🎲️
+                    </button>
+                    <button class="gr-button gr-button-lg gr-button-secondary" id="txt2img_reuse_subseed"
+                            title="Reuse seed from last generation, mostly useful if it was randomed">♻️
+                    </button>
+                    <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                         style="flex-direction: inherit;">
+                        <div id="txt2img_subseed_strength"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="w-full flex flex-col ">
+                                <div class="flex justify-between"><label for="range_id_11"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                        title="How strong of a variation to produce. At 0, there will be no effect. At 1, you will get the complete picture with variation seed (except for ancestral samplers, where you will just get something).">Variation strength</span></label>
+                                    <input type="number" class="gr-box gr-input gr-text-input text-center h-6" min="0"
+                                           max="1" step="0.01"></div>
+                            </div>
+                            <input type="range" id="range_id_11" name="cowbell"
+                                   class="w-full disabled:cursor-not-allowed" min="0" max="1" step="0.01"></div>
+                    </div>
+                </div>
+                <div class="flex row w-full flex-wrap gap-4 !hidden" id="component-95">
+                    <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                         style="flex-direction: inherit;">
+                        <div id="txt2img_seed_resize_from_w"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="w-full flex flex-col ">
+                                <div class="flex justify-between"><label for="range_id_12"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                        title="Make an attempt to produce a picture similar to what would have been produced with same seed at specified resolution">Resize seed from width</span></label>
+                                    <input type="number" class="gr-box gr-input gr-text-input text-center h-6" min="0"
+                                           max="2048" step="8"></div>
+                            </div>
+                            <input type="range" id="range_id_12" name="cowbell"
+                                   class="w-full disabled:cursor-not-allowed" min="0" max="2048" step="8"></div>
+                        <div id="txt2img_seed_resize_from_h"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="w-full flex flex-col ">
+                                <div class="flex justify-between"><label for="range_id_13"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                        title="Make an attempt to produce a picture similar to what would have been produced with same seed at specified resolution">Resize seed from height</span></label>
+                                    <input type="number" class="gr-box gr-input gr-text-input text-center h-6" min="0"
+                                           max="2048" step="8"></div>
+                            </div>
+                            <input type="range" id="range_id_13" name="cowbell"
+                                   class="w-full disabled:cursor-not-allowed" min="0" max="2048" step="8"></div>
+                    </div>
+                </div>
+                <div class="flex row w-full flex-wrap gap-4" id="txt2img_override_settings_row">
+                    <div id="txt2img_override_settings"
+                         class="gr-block gr-box relative w-full border-solid border border-gray-200 !hidden gr-padded">
+                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                        <label><span class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Override settings</span>
+                            <div class="relative border rounded-md">
+                                <div class="items-center flex flex-wrap relative">
+                                    <div class="items-center flex flex-1 min-w-min border-none"><input
+                                            class="border-none bg-inherit ml-2 text-lg w-full outline-none text-gray-700 dark:text-white disabled:cursor-not-allowed"
+                                            autocomplete="off" placeholder="">
+                                        <div class="remove-all items-center bg-gray-400 dark:bg-gray-700 rounded-full fill-white flex justify-center h-5 ml-1 min-w-min disabled:hidden p-0.5 hidden"
+                                             title="Remove All">
+                                            <svg class="icon-clear" xmlns="http://www.w3.org/2000/svg" width="16"
+                                                 height="16" viewBox="0 0 24 24">
+                                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
+                                            </svg>
+                                        </div>
+                                        <svg class="dropdown-arrow mr-2 min-w-min fill-gray-500 dark:fill-white"
+                                             xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                             viewBox="0 0 18 18">
+                                            <path d="M5 8l4 4 4-4z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </label></div>
+                </div>
+                <div id="txt2img_script_container" class="svelte-10ogue4">
+                    <div id="script_list"
+                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                        <label><span class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Script</span>
+                            <select class="gr-box gr-input w-full disabled:cursor-not-allowed"
+                                    title="Do not do anything special">
+                                <option value="None">None</option>
+                                <option value="Prompt matrix">Prompt matrix</option>
+                                <option value="Prompts from file or textbox">Prompts from file or textbox</option>
+                                <option value="X/Y/Z plot">X/Y/Z plot</option>
+                            </select></label></div>
+                    <div id="component-103" class="svelte-10ogue4 hidden">
+                        <div id="component-104"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded">
+                            <div class="wrap svelte-5usjvi inset-x-0 top-0 opacity-0"></div>
+                            <div class="transition">
+                                <div class="output-html" id="component-104"><br></div>
+                            </div>
+                        </div>
+                        <div class="flex row w-full flex-wrap gap-4" id="component-105">
+                            <div id="component-106" class="flex flex-col relative col gap-4"
+                                 style="min-width: min(320px, 100%); flex-grow: 1">
+                                <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                     style="flex-direction: inherit;">
+                                    <div id="script_txt2txt_prompt_matrix_put_at_start"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                                type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span
+                                                class="ml-2">Put variable parts at start of prompt</span></label></div>
+                                    <div id="script_txt2txt_prompt_matrix_different_seeds"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                                type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span
+                                                class="ml-2">Use different seed for each picture</span></label></div>
+                                </div>
+                            </div>
+                            <div id="component-110" class="flex flex-col relative col gap-4"
+                                 style="min-width: min(320px, 100%); flex-grow: 1">
+                                <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                     style="flex-direction: inherit;">
+                                    <fieldset id="script_txt2txt_prompt_matrix_prompt_type"
+                                              class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <span class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Select prompt</span>
+                                        <div class="flex flex-wrap gap-2"><label
+                                                class="gr-input-label flex items-center text-gray-700 text-sm space-x-2 border py-1.5 px-3 rounded-lg cursor-pointer bg-white shadow-sm checked:shadow-inner"><input
+                                                type="radio" name="radio-script_txt2txt_prompt_matrix_prompt_type"
+                                                class="gr-check-radio gr-radio" value="positive"> <span class="ml-2">positive</span></label><label
+                                                class="gr-input-label flex items-center text-gray-700 text-sm space-x-2 border py-1.5 px-3 rounded-lg cursor-pointer bg-white shadow-sm checked:shadow-inner"><input
+                                                type="radio" name="radio-script_txt2txt_prompt_matrix_prompt_type"
+                                                class="gr-check-radio gr-radio" value="negative"> <span class="ml-2">negative</span></label>
+                                        </div>
+                                    </fieldset>
+                                    <fieldset id="script_txt2txt_prompt_matrix_variations_delimiter"
+                                              class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <span class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Select joining char</span>
+                                        <div class="flex flex-wrap gap-2"><label
+                                                class="gr-input-label flex items-center text-gray-700 text-sm space-x-2 border py-1.5 px-3 rounded-lg cursor-pointer bg-white shadow-sm checked:shadow-inner"><input
+                                                type="radio"
+                                                name="radio-script_txt2txt_prompt_matrix_variations_delimiter"
+                                                class="gr-check-radio gr-radio" value="comma"> <span
+                                                class="ml-2">comma</span></label><label
+                                                class="gr-input-label flex items-center text-gray-700 text-sm space-x-2 border py-1.5 px-3 rounded-lg cursor-pointer bg-white shadow-sm checked:shadow-inner"><input
+                                                type="radio"
+                                                name="radio-script_txt2txt_prompt_matrix_variations_delimiter"
+                                                class="gr-check-radio gr-radio" value="space"> <span
+                                                class="ml-2">space</span></label></div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div id="component-114" class="flex flex-col relative col gap-4"
+                                 style="min-width: min(320px, 100%); flex-grow: 1">
+                                <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                     style="flex-direction: inherit;">
+                                    <div id="script_txt2txt_prompt_matrix_margin_size"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <div class="w-full flex flex-col ">
+                                            <div class="flex justify-between"><label for="range_id_14"><span
+                                                    class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Grid margins (px)</span></label>
+                                                <input type="number"
+                                                       class="gr-box gr-input gr-text-input text-center h-6" min="0"
+                                                       max="500" step="2"></div>
+                                        </div>
+                                        <input type="range" id="range_id_14" name="cowbell"
+                                               class="w-full disabled:cursor-not-allowed" min="0" max="500" step="2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="component-117" class="svelte-10ogue4 hidden">
+                        <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                             style="flex-direction: inherit;">
+                            <div id="script_txt2txt_prompts_from_file_or_textbox_checkbox_iterate"
+                                 class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                        type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span
+                                        class="ml-2">Iterate seed every line</span></label></div>
+                            <div id="script_txt2txt_prompts_from_file_or_textbox_checkbox_iterate_batch"
+                                 class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                        type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span
+                                        class="ml-2">Use same random seed for all lines</span></label></div>
+                            <div id="script_txt2txt_prompts_from_file_or_textbox_prompt_txt"
+                                 class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                <label class="block w-full"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">List of prompt inputs</span>
+                                    <textarea data-testid="textbox"
+                                              class="scroll-hide block gr-box gr-input w-full gr-text-input"
+                                              placeholder="" rows="1"
+                                              style="overflow-y: scroll; height: 42px;"></textarea></label></div>
+                        </div>
+                        <div id="script_txt2txt_prompts_from_file_or_textbox_file"
+                             class="gr-block gr-box relative w-full border-dashed border border-gray-300 border-gray-200">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="absolute left-0 top-0 py-1 px-2 rounded-br-lg shadow-sm text-xs text-gray-500 flex items-center pointer-events-none bg-white z-20 border-b border-r border-gray-100 dark:bg-gray-900">
+                                <span class="mr-2 h-[12px] w-[12px] opacity-80"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                     width="100%" height="100%"
+                                                                                     viewBox="0 0 24 24" fill="none"
+                                                                                     stroke="currentColor"
+                                                                                     stroke-width="1.5"
+                                                                                     stroke-linecap="round"
+                                                                                     stroke-linejoin="round"
+                                                                                     class="feather feather-file"><path
+                                        d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline
+                                        points="13 2 13 9 20 9"></polyline></svg></span> Upload prompt inputs
+                            </div>
+                            <div class="w-full cursor-pointer h-full items-center justify-center text-gray-400 md:text-xl min-h-[10rem] md:min-h-[15rem] max-h-[15rem] xl:max-h-[18rem] 2xl:max-h-[20rem] text-center flex">
+                                ここにファイルをドロップ <br>- または -<br> クリックしてアップロード <input class="hidden-upload hidden"
+                                                                                 type="file" accept="file/*"></div>
+                        </div>
+                    </div>
+                    <div id="component-123" class="svelte-10ogue4 hidden">
+                        <div class="flex row w-full flex-wrap gap-4" id="component-124">
+                            <div id="component-125" class="flex flex-col relative col gap-4"
+                                 style="min-width: min(320px, 100%); flex-grow: 19">
+                                <div class="flex row w-full flex-wrap gap-4" id="component-126">
+                                    <div id="script_txt2txt_xyz_plot_x_type"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <label><span
+                                                class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">X type</span>
+                                            <select class="gr-box gr-input w-full disabled:cursor-not-allowed"
+                                                    title="A value that determines the output of random number generator - if you create an image with same parameters and seed as another image, you'll get the same result">
+                                                <option value="Nothing">Nothing</option>
+                                                <option value="Seed">Seed</option>
+                                                <option value="Var. seed">Var. seed</option>
+                                                <option value="Var. strength">Var. strength</option>
+                                                <option value="Steps">Steps</option>
+                                                <option value="Hires steps">Hires steps</option>
+                                                <option value="CFG Scale">CFG Scale</option>
+                                                <option value="Prompt S/R">Prompt S/R</option>
+                                                <option value="Prompt order">Prompt order</option>
+                                                <option value="Sampler">Sampler</option>
+                                                <option value="Checkpoint name">Checkpoint name</option>
+                                                <option value="Sigma Churn">Sigma Churn</option>
+                                                <option value="Sigma min">Sigma min</option>
+                                                <option value="Sigma max">Sigma max</option>
+                                                <option value="Sigma noise">Sigma noise</option>
+                                                <option value="Eta">Eta</option>
+                                                <option value="Clip skip">Clip skip</option>
+                                                <option value="Denoising">Denoising</option>
+                                                <option value="Hires upscaler">Hires upscaler</option>
+                                                <option value="VAE">VAE</option>
+                                                <option value="Styles">Styles</option>
+                                                <option value="UniPC Order">UniPC Order</option>
+                                            </select></label></div>
+                                    <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                         style="flex-direction: inherit;">
+                                        <div id="script_txt2txt_xyz_plot_x_values"
+                                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                            <label class="block w-full"><span
+                                                    class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                                    title="Separate values for X axis using commas.">X values</span>
+                                                <textarea data-testid="textbox"
+                                                          class="scroll-hide block gr-box gr-input w-full gr-text-input"
+                                                          placeholder="" rows="1"
+                                                          style="overflow-y: scroll; height: 42px;"></textarea></label>
+                                        </div>
+                                    </div>
+                                    <button class="gr-button gr-button-lg gr-button-tool !hidden"
+                                            id="xyz_grid_fill_x_tool_button"
+                                            title="Paste available values into the field">📒
+                                    </button>
+                                </div>
+                                <div class="flex row w-full flex-wrap gap-4" id="component-131">
+                                    <div id="script_txt2txt_xyz_plot_y_type"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <label><span
+                                                class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Y type</span>
+                                            <select class="gr-box gr-input w-full disabled:cursor-not-allowed">
+                                                <option value="Nothing">Nothing</option>
+                                                <option value="Seed">Seed</option>
+                                                <option value="Var. seed">Var. seed</option>
+                                                <option value="Var. strength">Var. strength</option>
+                                                <option value="Steps">Steps</option>
+                                                <option value="Hires steps">Hires steps</option>
+                                                <option value="CFG Scale">CFG Scale</option>
+                                                <option value="Prompt S/R">Prompt S/R</option>
+                                                <option value="Prompt order">Prompt order</option>
+                                                <option value="Sampler">Sampler</option>
+                                                <option value="Checkpoint name">Checkpoint name</option>
+                                                <option value="Sigma Churn">Sigma Churn</option>
+                                                <option value="Sigma min">Sigma min</option>
+                                                <option value="Sigma max">Sigma max</option>
+                                                <option value="Sigma noise">Sigma noise</option>
+                                                <option value="Eta">Eta</option>
+                                                <option value="Clip skip">Clip skip</option>
+                                                <option value="Denoising">Denoising</option>
+                                                <option value="Hires upscaler">Hires upscaler</option>
+                                                <option value="VAE">VAE</option>
+                                                <option value="Styles">Styles</option>
+                                                <option value="UniPC Order">UniPC Order</option>
+                                            </select></label></div>
+                                    <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                         style="flex-direction: inherit;">
+                                        <div id="script_txt2txt_xyz_plot_y_values"
+                                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                            <label class="block w-full"><span
+                                                    class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40"
+                                                    title="Separate values for Y axis using commas.">Y values</span>
+                                                <textarea data-testid="textbox"
+                                                          class="scroll-hide block gr-box gr-input w-full gr-text-input"
+                                                          placeholder="" rows="1"
+                                                          style="overflow-y: scroll; height: 42px;"></textarea></label>
+                                        </div>
+                                    </div>
+                                    <button class="gr-button gr-button-lg gr-button-tool !hidden"
+                                            id="xyz_grid_fill_y_tool_button"
+                                            title="Paste available values into the field">📒
+                                    </button>
+                                </div>
+                                <div class="flex row w-full flex-wrap gap-4" id="component-136">
+                                    <div id="script_txt2txt_xyz_plot_z_type"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <label><span
+                                                class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Z type</span>
+                                            <select class="gr-box gr-input w-full disabled:cursor-not-allowed">
+                                                <option value="Nothing">Nothing</option>
+                                                <option value="Seed">Seed</option>
+                                                <option value="Var. seed">Var. seed</option>
+                                                <option value="Var. strength">Var. strength</option>
+                                                <option value="Steps">Steps</option>
+                                                <option value="Hires steps">Hires steps</option>
+                                                <option value="CFG Scale">CFG Scale</option>
+                                                <option value="Prompt S/R">Prompt S/R</option>
+                                                <option value="Prompt order">Prompt order</option>
+                                                <option value="Sampler">Sampler</option>
+                                                <option value="Checkpoint name">Checkpoint name</option>
+                                                <option value="Sigma Churn">Sigma Churn</option>
+                                                <option value="Sigma min">Sigma min</option>
+                                                <option value="Sigma max">Sigma max</option>
+                                                <option value="Sigma noise">Sigma noise</option>
+                                                <option value="Eta">Eta</option>
+                                                <option value="Clip skip">Clip skip</option>
+                                                <option value="Denoising">Denoising</option>
+                                                <option value="Hires upscaler">Hires upscaler</option>
+                                                <option value="VAE">VAE</option>
+                                                <option value="Styles">Styles</option>
+                                                <option value="UniPC Order">UniPC Order</option>
+                                            </select></label></div>
+                                    <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                         style="flex-direction: inherit;">
+                                        <div id="script_txt2txt_xyz_plot_z_values"
+                                             class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                            <label class="block w-full"><span
+                                                    class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Z values</span>
+                                                <textarea data-testid="textbox"
+                                                          class="scroll-hide block gr-box gr-input w-full gr-text-input"
+                                                          placeholder="" rows="1"
+                                                          style="overflow-y: scroll; height: 42px;"></textarea></label>
+                                        </div>
+                                    </div>
+                                    <button class="gr-button gr-button-lg gr-button-tool !hidden"
+                                            id="xyz_grid_fill_z_tool_button"
+                                            title="Paste available values into the field">📒
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex row w-full flex-wrap gap-4 gr-compact" id="axis_options">
+                            <div id="component-142" class="flex flex-col relative col gap-4"
+                                 style="min-width: min(320px, 100%); flex-grow: 1">
+                                <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                     style="flex-direction: inherit;">
+                                    <div id="script_txt2txt_xyz_plot_draw_legend"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                                type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span
+                                                class="ml-2">Draw legend</span></label></div>
+                                    <div id="script_txt2txt_xyz_plot_no_fixed_seeds"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                                type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span
+                                                class="ml-2">Keep -1 for seeds</span></label></div>
+                                </div>
+                            </div>
+                            <div id="component-146" class="flex flex-col relative col gap-4"
+                                 style="min-width: min(320px, 100%); flex-grow: 1">
+                                <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                     style="flex-direction: inherit;">
+                                    <div id="script_txt2txt_xyz_plot_include_lone_images"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                                type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span
+                                                class="ml-2">Include Sub Images</span></label></div>
+                                    <div id="script_txt2txt_xyz_plot_include_sub_grids"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <label class="flex items-center text-gray-700 text-sm space-x-2 rounded-lg cursor-pointer dark:bg-transparent"><input
+                                                type="checkbox" name="test" class="gr-check-radio gr-checkbox"> <span
+                                                class="ml-2">Include Sub Grids</span></label></div>
+                                </div>
+                            </div>
+                            <div id="component-150" class="flex flex-col relative col gap-4"
+                                 style="min-width: min(320px, 100%); flex-grow: 1">
+                                <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                                     style="flex-direction: inherit;">
+                                    <div id="script_txt2txt_xyz_plot_margin_size"
+                                         class="gr-block gr-box relative w-full border-solid border border-gray-200 gr-padded">
+                                        <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                                        <div class="w-full flex flex-col ">
+                                            <div class="flex justify-between"><label for="range_id_15"><span
+                                                    class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Grid margins (px)</span></label>
+                                                <input type="number"
+                                                       class="gr-box gr-input gr-text-input text-center h-6" min="0"
+                                                       max="500" step="2"></div>
+                                        </div>
+                                        <input type="range" id="range_id_15" name="cowbell"
+                                               class="w-full disabled:cursor-not-allowed" min="0" max="500" step="2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex row w-full flex-wrap gap-4 gr-compact" id="swap_axes">
+                            <button class="gr-button gr-button-lg gr-button-secondary" id="xy_grid_swap_axes_button">
+                                Swap X/Y axes
+                            </button>
+                            <button class="gr-button gr-button-lg gr-button-secondary" id="yz_grid_swap_axes_button">
+                                Swap Y/Z axes
+                            </button>
+                            <button class="gr-button gr-button-lg gr-button-secondary" id="xz_grid_swap_axes_button">
+                                Swap X/Z axes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="txt2img_results" class="flex flex-col relative col gap-4 gr-panel"
+                 style="min-width: min(320px, 100%); flex-grow: 1">
+                <div id="txt2img_gallery_container" class="svelte-10ogue4">
+                    <div id="txt2img_gallery"
+                         class="gr-block gr-box relative w-full border-solid border border-gray-200">
+                        <div class="wrap svelte-5usjvi inset-0 !hidden opacity-0"></div>
+                        <div class="absolute group inset-0 z-10 flex flex-col bg-white/90 dark:bg-gray-900 backdrop-blur h-full min-h-[350px] max-h-[55vh] xl:min-h-[450px]">
+                            <div class="modify-upload z-10 top-2 right-2 justify-end flex gap-1 absolute">
+                                <button class="text-gray-500 bg-white/90 h-5 w-5 flex items-center justify-center rounded shadow-sm hover:shadow-xl hover:ring-1 ring-inset ring-gray-200 z-10 dark:bg-gray-900 dark:ring-gray-600"
+                                        aria-label="Clear">
+                                    <div class="m-t-1 w-[60%] h-[60%] opacity-80 dark:text-white">
+                                        <svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" stroke="currentColor" style="fill-rule: evenodd; clip-rule: evenodd; stroke-linecap: round; stroke-linejoin: round;"><g transform="matrix(1.14096,-0.140958,-0.140958,1.14096,-0.0559523,0.0559523)"><path d="M18,6L6.087,17.913" style="fill: none; fill-rule: nonzero; stroke-width: 2px;"></path></g><path
+                                                d="M4.364,4.364L19.636,19.636"
+                                                style="fill: none; fill-rule: nonzero; stroke-width: 2px;"></path></svg>
+                                    </div>
+                                </button>
+                            </div>
+                            <img class="w-full object-contain h-[calc(100%-50px)"
+                                 src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-grids\2023-03-19\grid-0005.png"
+                                 alt="" style="height: calc(100% - 60px); cursor: pointer; user-select: none;"
+                                 data-modded="true">
+                            <div class="absolute h-[60px] overflow-x-scroll scroll-hide w-full bottom-0 flex gap-1.5 items-center py-2 text-sm px-3 justify-center">
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 !ring-2 !ring-orange-500 hover:!ring-orange-500 svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-grids\2023-03-19\grid-0005.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00404-3998135488.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00405-3998135489.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00406-3998135490.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00407-3998135491.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00408-3998135492.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00409-3998135493.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00410-3998135494.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00411-3998135495.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00412-3998135496.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00413-3998135497.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00414-3998135498.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00415-3998135499.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00416-3998135500.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00417-3998135501.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00418-3998135502.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00419-3998135503.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00420-3998135504.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00421-3998135505.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00422-3998135506.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00423-3998135507.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00424-3998135508.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00425-3998135509.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00426-3998135510.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00427-3998135511.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00428-3998135512.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00429-3998135513.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00430-3998135514.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00431-3998135515.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00432-3998135516.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00433-3998135517.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00434-3998135518.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00435-3998135519.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00436-3998135520.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00437-3998135521.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00438-3998135522.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00439-3998135523.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00440-3998135524.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00441-3998135525.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00442-3998135526.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00443-3998135527.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00444-3998135528.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00445-3998135529.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00446-3998135530.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00447-3998135531.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00448-3998135532.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00449-3998135533.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00450-3998135534.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00451-3998135535.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00452-3998135536.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00453-3998135537.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00454-3998135538.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00455-3998135539.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00456-3998135540.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00457-3998135541.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00458-3998135542.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00459-3998135543.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00460-3998135544.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00461-3998135545.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00462-3998135546.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00463-3998135547.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00464-3998135548.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00465-3998135549.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00466-3998135550.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00467-3998135551.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00468-3998135552.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00469-3998135553.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00470-3998135554.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00471-3998135555.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00472-3998135556.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00473-3998135557.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00474-3998135558.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00475-3998135559.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00476-3998135560.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00477-3998135561.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00478-3998135562.png"
+                                         data-modded="true"></button>
+                                <button class="gallery-item !flex-none !h-9 !w-9 transition-all duration-75 scale-90 transform svelte-1g9btlg">
+                                    <img class="h-full w-full overflow-hidden object-contain"
+                                         src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00479-3998135563.png"
+                                         data-modded="true"></button>
+                            </div>
+                        </div>
+                        <div class="overflow-y-auto h-full p-2 min-h-[350px] max-h-[55vh] xl:min-h-[450px]"
+                             style="position: relative;">
+                            <iframe style="display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; border: 0; opacity: 0; pointer-events: none; z-index: -1;"
+                                    aria-hidden="true" tabindex="-1" src="about:blank"></iframe>
+                            <div class="grid gap-2 grid-cols-4 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 svelte-1g9btlg">
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-grids\2023-03-19\grid-0005.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00404-3998135488.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00405-3998135489.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00406-3998135490.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00407-3998135491.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00408-3998135492.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00409-3998135493.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00410-3998135494.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00411-3998135495.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00412-3998135496.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00413-3998135497.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00414-3998135498.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00415-3998135499.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00416-3998135500.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00417-3998135501.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00418-3998135502.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00419-3998135503.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00420-3998135504.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00421-3998135505.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00422-3998135506.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00423-3998135507.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00424-3998135508.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00425-3998135509.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00426-3998135510.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00427-3998135511.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00428-3998135512.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00429-3998135513.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00430-3998135514.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00431-3998135515.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00432-3998135516.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00433-3998135517.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00434-3998135518.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00435-3998135519.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00436-3998135520.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00437-3998135521.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00438-3998135522.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00439-3998135523.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00440-3998135524.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00441-3998135525.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00442-3998135526.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00443-3998135527.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00444-3998135528.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00445-3998135529.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00446-3998135530.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00447-3998135531.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00448-3998135532.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00449-3998135533.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00450-3998135534.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00451-3998135535.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00452-3998135536.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00453-3998135537.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00454-3998135538.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00455-3998135539.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00456-3998135540.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00457-3998135541.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00458-3998135542.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00459-3998135543.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00460-3998135544.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00461-3998135545.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00462-3998135546.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00463-3998135547.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00464-3998135548.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00465-3998135549.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00466-3998135550.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00467-3998135551.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00468-3998135552.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00469-3998135553.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00470-3998135554.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00471-3998135555.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00472-3998135556.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00473-3998135557.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00474-3998135558.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00475-3998135559.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00476-3998135560.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00477-3998135561.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00478-3998135562.png"
+                                                                                       data-modded="true"></button>
+                                <button class="gallery-item group svelte-1g9btlg"><img alt=""
+                                                                                       class="h-full w-full overflow-hidden object-contain"
+                                                                                       src="file=C:\vm-ai\stable-diffusion-webui\outputs\txt2img-images\2023-03-19\00479-3998135563.png"
+                                                                                       data-modded="true"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="component-160" class="flex flex-col relative col gap-4"
+                     style="min-width: min(320px, 100%); flex-grow: 1">
+                    <div class="flex row w-full flex-wrap gap-4" id="image_buttons_txt2img">
+                        <button class="gr-button gr-button-lg gr-button-secondary" id="open_folder_txt2img"
+                                title="Open images output directory">📂
+                        </button>
+                        <button class="gr-button gr-button-lg gr-button-secondary" id="save_txt2img"
+                                title="Write image to a directory (default - log/images) and generation parameters into csv file.">
+                            Save
+                        </button>
+                        <button class="gr-button gr-button-lg gr-button-secondary" id="save_zip_txt2img">Zip</button>
+                        <button class="gr-button gr-button-lg gr-button-secondary" id="img2img_tab">Send to img2img
+                        </button>
+                        <button class="gr-button gr-button-lg gr-button-secondary" id="inpaint_tab">Send to inpaint
+                        </button>
+                        <button class="gr-button gr-button-lg gr-button-secondary" id="extras_tab">Send to extras
+                        </button>
+                    </div>
+                    <div class="flex row w-full flex-wrap gap-4" id="component-168">
+                        <div id="download_files_txt2img"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 !hidden">
+                            <div class="wrap svelte-5usjvi inset-0 opacity-0"></div>
+                            <div class="absolute left-0 top-0 py-1 px-2 rounded-br-lg shadow-sm text-xs text-gray-500 flex items-center pointer-events-none bg-white z-20 border-b border-r border-gray-100 dark:bg-gray-900 h-0 sr-only">
+                                <span class="mr-2 h-[12px] w-[12px] opacity-80"><svg xmlns="http://www.w3.org/2000/svg"
+                                                                                     width="100%" height="100%"
+                                                                                     viewBox="0 0 24 24" fill="none"
+                                                                                     stroke="currentColor"
+                                                                                     stroke-width="1.5"
+                                                                                     stroke-linecap="round"
+                                                                                     stroke-linejoin="round"
+                                                                                     class="feather feather-file"><path
+                                        d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline
+                                        points="13 2 13 9 20 9"></polyline></svg></span> File
+                            </div>
+                            <div class="h-full min-h-[15rem] flex justify-center items-center">
+                                <div class="h-5 dark:text-white opacity-50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
+                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                                         stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
+                                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                        <polyline points="13 2 13 9 20 9"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="component-170" class="svelte-10ogue4">
+                        <div id="html_info_txt2img"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded">
+                            <div class="wrap svelte-5usjvi inset-x-0 top-0 opacity-0"></div>
+                            <div class="transition">
+                                <div class="output-html" id="html_info_txt2img"><p>best quality,masterpiece,ultra high
+                                    res,(photo realistic:1.4), (extremely detailed CG unity 8k wallpaper), detailed
+                                    beautiful face, (small
+                                    head),Japanese,Melancholy,Natural,Mysterious,coquettish,(half-open eyes:1.5), 1
+                                    girl,(small breasts), f1.4,smiling,(sex:1.5),pov,public indecency,19 years
+                                    old,missionary,<br>
+                                    Negative prompt: painting,sketches,(worst quality:2),(low quality:2),(normal
+                                    quality:2),lowers,normal quality,((monochrome)),((grayscale)),[skin
+                                    spots],acnes,skin blemishes,age,Skinny,child<br>
+                                    Steps: 27, Sampler: DPM++ SDE, CFG scale: 7, Seed: 3998135488, Size: 512x768, Model
+                                    hash: fc2511737a, Model: chilloutmix_NiPrunedFp32Fix</p></div>
+                            </div>
+                        </div>
+                        <div id="html_log_txt2img"
+                             class="gr-block gr-box relative w-full border-solid border border-gray-200 !p-0 !m-0 !border-0 !shadow-none !overflow-visible !bg-transparent gr-padded">
+                            <div class="wrap svelte-5usjvi inset-x-0 top-0 !hidden opacity-0"></div>
+                            <div class="transition">
+                                <div class="output-html" id="html_log_txt2img"><p></p>
+                                    <div class="performance">
+                                        <p class="time">Time taken:
+                                            <wbr>
+                                            13m 52.87s
+                                        </p>
+                                        <p class="vram" title="Torch active: Peak amount of VRAM used by Torch during generation, excluding cached data.
+Torch reserved: Peak amount of VRAM allocated by Torch, including all active and cached data.
+Sys VRAM: Peak amount of VRAM allocation across all applications / total GPU VRAM (peak utilization%).">Torch
+                                            active/reserved: 4611/5776 MiB,
+                                            <wbr>
+                                            Sys VRAM: 8192/8192 MiB (100.0%)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gr-form flex border-solid border bg-gray-200 dark:bg-gray-700 gap-px rounded-lg flex-wrap"
+                             style="flex-direction: inherit;">
+                            <div id="generation_info_txt2img"
+                                 class="gr-block gr-box relative w-full border-solid border border-gray-200 !hidden gr-padded">
+                                <div class="wrap svelte-5usjvi inset-0 !hidden opacity-0"></div>
+                                <label class="block w-full"><span
+                                        class="text-gray-500 text-[0.855rem] mb-2 block dark:text-gray-200 relative z-40">Textbox</span>
+                                    <textarea data-testid="textbox"
+                                              class="scroll-hide block gr-box gr-input w-full gr-text-input"
+                                              placeholder="" rows="1"
+                                              style="overflow-y: scroll; height: 42px;"></textarea></label></div>
+                        </div>
+                        <button class="gr-button gr-button-lg gr-button-secondary !hidden"
+                                id="txt2img_generation_info_button">Run
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
