@@ -2,7 +2,7 @@
 console.log(this, "v0.1")
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log("chrome.runtime.onMessage")
+  console.log("chrome.runtime.onMessage",request)
   switch (request.action) {
     case "getData":
       sendResponse({
@@ -11,6 +11,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       break;
     case "setData":
       document.querySelector("#txt2img_prompt textarea").value = request.poji;
+      sendResponse({success: true});
       break;
   }
   // if (request.action === "changeDom") {
