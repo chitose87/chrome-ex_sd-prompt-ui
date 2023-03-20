@@ -10,7 +10,7 @@
   <input type="text" v-model="obj.name">
   <button @click="save">save</button>
   <button @click="deleate">☓</button>
-<!--  <span>|</span>-->
+  <!--  <span>|</span>-->
   <!--  <button @click="fileExport">export</button>-->
   <!--  <button @click="fileImport">import</button>-->
 </div>
@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import {onMounted, reactive, watch, watchEffect} from "vue";
-import {appData} from "../utils";
+import {appData, asyncPostMsg} from "../utils";
 
 const obj = reactive({
   name: "",
@@ -47,18 +47,31 @@ const load = () => {
     obj.name = obj.select;
 
     appData.tagList = data.tagList;
+
+    // 本体に送信
+    window.parent.postMessage({
+      source: "iframe",
+      method: "setOption",
+      option: JSON.stringify(data.option)
+    }, "*");
+
   } catch (e) {
     alert("error" + obj.select);
   }
 }
 const save = () => {
-  let name = obj.name || "vvv";
-  localStorage.setItem(name, JSON.stringify({
-    tagList: appData.tagList
-  }));
-  obj.option.list[name] = 1;
-  obj.option.current = name;
-  localStorage.setItem("option", JSON.stringify(obj.option));
+  asyncPostMsg("getData")
+    .then((data: any) => {
+      let name = obj.name || "vvv";
+      localStorage.setItem(name, JSON.stringify({
+        tagList: appData.tagList,
+        option: data.option
+      }));
+      obj.option.list[name] = 1;
+      obj.option.current = name;
+      localStorage.setItem("option", JSON.stringify(obj.option));
+    });
+
 }
 const deleate = () => {
   if (confirm(`${obj.name}を削除します`)) {

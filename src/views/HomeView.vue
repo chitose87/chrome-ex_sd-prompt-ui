@@ -17,16 +17,20 @@
 import {onMounted, ref, watchEffect} from 'vue'
 import PojiPrompt from "../components/PojiPrompt.vue";
 import Preset from "../components/Preset.vue";
-import {appData} from "../utils";
+import {appData, asyncPostMsg} from "../utils";
 
 onMounted(() => {
   window.addEventListener("message", (e) => {
     if (e.data.source === "parent" && e.data.method == "getData") {
-      appData.form.poji = e.data.poji;
-      appData.form.option = e.data.option;
     }
   });
   window.parent.postMessage({source: "iframe", method: "getData"}, "*");
+
+  asyncPostMsg("getData")
+    .then((data: any) => {
+      appData.form.poji = data.poji;
+      // appData.form.option = JSON.parse(data.option);
+    });
 });
 
 watchEffect(() => {
@@ -43,12 +47,16 @@ watchEffect(() => {
     source: "iframe",
     method: "setData",
     poji: arr.join(","),
-    option: appData.form.option
+    // option: JSON.stringify(appData.form.option)
   }, "*");
 })
 
 const refreash = () => {
-  window.parent.postMessage({source: "iframe", method: "getData"}, "*");
+  asyncPostMsg("getData")
+    .then((data: any) => {
+      appData.form.poji = data.poji;
+      // appData.form.option = JSON.parse(data.option);
+    });
 }
 </script>
 
