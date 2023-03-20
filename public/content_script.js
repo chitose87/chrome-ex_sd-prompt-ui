@@ -1,26 +1,22 @@
-// window.alert('アプリ開いたね！');
-console.log(this, "v0.1")
+(() => {
+  console.log(this, "v0.1")
+  let rootElement = document.querySelector("gradio-app");
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  console.log("chrome.runtime.onMessage",request)
-  switch (request.action) {
-    case "getData":
-      sendResponse({
-        poji: document.querySelector("gradio-app").shadowRoot.querySelector("#txt2img_prompt textarea").value
-      })
-      break;
-    case "setData":
-      document.querySelector("gradio-app").shadowRoot.querySelector("#txt2img_prompt textarea").value = request.poji;
-      sendResponse({success: true});
-      break;
-  }
-  // if (request.action === "changeDom") {
-  //   const element = document.querySelector(request.selector);
-  //   if (element) {
-  //     element.innerHTML = request.newContent;
-  //     sendResponse({success: true});
-  //   } else {
-  //     sendResponse({success: false, error: "Element not found."});
-  //   }
-  // }
-});
+  if (rootElement) rootElement = rootElement.shadowRoot;
+  else rootElement = document.querySelector("#tab_txt2img");
+
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log("chrome.runtime.onMessage", request)
+    switch (request.action) {
+      case "getData":
+        sendResponse({
+          poji: rootElement.querySelector("#txt2img_prompt textarea").value
+        })
+        break;
+      case "setData":
+        rootElement.querySelector("#txt2img_prompt textarea").value = request.poji;
+        sendResponse({success: true});
+        break;
+    }
+  });
+})();
