@@ -41,6 +41,13 @@
           break;
         case "setData":
           rootElement.querySelector("#txt2img_prompt textarea").value = event.data.poji;
+          compute("txt2img_neg_prompt textarea", event.data.option.nega);
+          compute("txt2img_steps input", event.data.option.steps);
+          compute("txt2img_sampling select", event.data.option.sampling);
+          compute("txt2img_width input", event.data.option.width);
+          compute("txt2img_height input", event.data.option.height);
+          compute("txt2img_cfg_scale input", event.data.option.cfg);
+          compute("txt2img_seed input", event.data.option.seed);
           break;
       }
     }
@@ -53,8 +60,30 @@
         source: "parent",
         method: event.data.method,
         poji: rootElement.querySelector("#txt2img_prompt textarea").value,
+        option: {
+          nega: compute("txt2img_neg_prompt textarea"),
+          steps: compute("txt2img_steps input"),
+          sampling: compute("txt2img_sampling select"),
+          width: compute("txt2img_width input"),
+          height: compute("txt2img_height input"),
+          cfg: compute("txt2img_cfg_scale input"),
+          seed: compute("txt2img_seed input"),
+        },
       },
       "*"
     );
+  }
+
+  const compute = (selectors, value) => {
+    try {
+      let target = rootElement.querySelector(selectors);
+      if (value) {
+        target.value = value;
+      } else {
+        return target.value;
+      }
+    } catch (e) {
+      return "";
+    }
   }
 })();

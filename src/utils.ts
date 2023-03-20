@@ -5,6 +5,7 @@ export const appData = reactive({
   category: category,
   tagList: Object.assign({}, presetData),
   form: {
-    poji: ""
-  }
+    poji: "",
+    option: <any>{}
+  },
 });

@@ -23,6 +23,7 @@ onMounted(() => {
   window.addEventListener("message", (e) => {
     if (e.data.source === "parent" && e.data.method == "getData") {
       appData.form.poji = e.data.poji;
+      appData.form.option = e.data.option;
     }
   });
   window.parent.postMessage({source: "iframe", method: "getData"}, "*");
@@ -42,6 +43,7 @@ watchEffect(() => {
     source: "iframe",
     method: "setData",
     poji: arr.join(","),
+    option: appData.form.option
   }, "*");
 })
 
