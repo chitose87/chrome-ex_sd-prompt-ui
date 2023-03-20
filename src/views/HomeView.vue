@@ -4,6 +4,7 @@
   <!--    <button @click="getData">受け取る</button>-->
   <!--  <button @click="setData">送る</button>-->
   <!--  <hr>-->
+  <Preset></Preset>
   <PojiPrompt></PojiPrompt>
   <!--  <h2>home</h2>-->
   <!--  <div>-->
@@ -15,6 +16,7 @@
 <script setup lang="ts">
 import {onMounted, ref, watchEffect} from 'vue'
 import PojiPrompt from "../components/PojiPrompt.vue";
+import Preset from "../components/Preset.vue";
 import {appData} from "../utils";
 
 onMounted(() => {

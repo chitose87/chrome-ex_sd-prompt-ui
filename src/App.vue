@@ -18,6 +18,7 @@ import {RouterLink, RouterView} from 'vue-router'
   /*min-width: 300px;*/
   /*min-height: 300px;*/
   /*background: lemonchiffon;*/
+  background-color: #fefefe;
 }
 
 body {
