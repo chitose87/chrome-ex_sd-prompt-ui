@@ -9,7 +9,7 @@
 
   // set up dom
   const div = document.createElement("div")
-  div.innerHTML = `<textarea style='width: 20px; border: 0px'></textarea>`;
+  div.innerHTML = `<textarea style='width: 20px; border: 0;resize: vertical'></textarea>`;
   div.setAttribute("style", `
     display: flex;
 `)
@@ -41,16 +41,19 @@
           break;
         case "setData":
           rootElement.querySelector("#txt2img_prompt textarea").value = event.data.poji;
+          rootElement.querySelector("#txt2img_prompt textarea").dispatchEvent(new Event("input"));
           break;
         case "setOption":
-          let option = JSON.parse(event.data.option);
-          compute("txt2img_neg_prompt textarea", option.nega);
-          compute("txt2img_steps input", option.steps);
+          console.log("-----", event.data.option)
+          let option = JSON.parse(JSON.parse(event.data.option));
+          console.log(option)
+          compute("txt2img_neg_prompt textarea", option.nega, "input");
+          compute("txt2img_steps input[type='range']", parseFloat(option.steps), "input");
           compute("txt2img_sampling select", option.sampling);
-          compute("txt2img_width input", option.width);
-          compute("txt2img_height input", option.height);
-          compute("txt2img_cfg_scale input", option.cfg);
-          compute("txt2img_seed input", option.seed);
+          compute("txt2img_width input[type='range']", parseFloat(option.width), "input");
+          compute("txt2img_height input[type='range']", parseFloat(option.height), "input");
+          compute("txt2img_cfg_scale input[type='range']", parseFloat(option.cfg), "input");
+          compute("txt2img_seed input", parseFloat(option.seed));
           break;
       }
     }
@@ -58,10 +61,20 @@
 
   // 拡張機能にデータ送る
   const sendData = () => {
+    console.log({
+      nega: compute("txt2img_neg_prompt textarea"),
+      steps: compute("txt2img_steps input"),
+      sampling: compute("txt2img_sampling select"),
+      width: compute("txt2img_width input"),
+      height: compute("txt2img_height input"),
+      cfg: compute("txt2img_cfg_scale input"),
+      seed: compute("txt2img_seed input"),
+    })
+
     iframe.contentWindow.postMessage(
       {
         source: "parent",
-        method: event.data.method,
+        method: "getData",
         poji: rootElement.querySelector("#txt2img_prompt textarea").value,
         option: JSON.stringify({
           nega: compute("txt2img_neg_prompt textarea"),
@@ -77,15 +90,18 @@
     );
   }
 
-  const compute = (selectors, value) => {
+  const compute = (selectors, value, type) => {
+    console.log(selectors, value)
     try {
-      let target = rootElement.querySelector(selectors);
+      let target = rootElement.querySelector("#" + selectors);
       if (value) {
         target.value = value;
+        target.dispatchEvent(new Event(type || "change"));
       } else {
         return target.value;
       }
     } catch (e) {
+      console.log(e, selectors, value);
       return "";
     }
   }

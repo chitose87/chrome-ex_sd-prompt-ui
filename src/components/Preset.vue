@@ -43,6 +43,7 @@ onMounted(() => {
 
 const load = () => {
   try {
+    console.log(localStorage.getItem(obj.select))
     let data = JSON.parse(localStorage.getItem(obj.select) || "");
     obj.name = obj.select;
 
@@ -60,9 +61,11 @@ const load = () => {
   }
 }
 const save = () => {
+  console.log("save")
   asyncPostMsg("getData")
     .then((data: any) => {
       let name = obj.name || "vvv";
+      console.log("---",data.option)
       localStorage.setItem(name, JSON.stringify({
         tagList: appData.tagList,
         option: data.option
