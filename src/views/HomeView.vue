@@ -17,15 +17,9 @@
 import {onMounted, ref, watchEffect} from 'vue'
 import PojiPrompt from "../components/PojiPrompt.vue";
 import Preset from "../components/Preset.vue";
-import {appData, asyncPostMsg} from "../utils";
+import {appData, asyncPostMsg, storage} from "../utils";
 
 onMounted(() => {
-  window.addEventListener("message", (e) => {
-    if (e.data.source === "parent" && e.data.method == "getData") {
-    }
-  });
-  window.parent.postMessage({source: "iframe", method: "getData"}, "*");
-
   asyncPostMsg("getData")
     .then((data: any) => {
       appData.form.poji = data.poji;
@@ -34,14 +28,16 @@ onMounted(() => {
 });
 
 watchEffect(() => {
-  console.log(appData.form.poji);
+  console.log("appData.selectList", appData.selectList);
+
   let arr = <any>[];
-  for (let id in appData.tagList) {
-    let item = appData.tagList[id];
-    if (item.selected) {
-      arr.push(item.value);
+  for (let id in appData.selectList) {
+    let tag = storage.tagList[id]
+    if (appData.selectList[id] && tag) {
+      arr.push(tag.value);
     }
   }
+  console.log(arr);
 
   window.parent.postMessage({
     source: "iframe",

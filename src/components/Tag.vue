@@ -1,14 +1,24 @@
 <template>
-<div class="greetings" :title="appData.tagList[id].value">
-  <button v-html="appData.tagList[id].label"
-          :aria-selected="appData.tagList[id].selected"
-          @click="appData.tagList[id].selected=!appData.tagList[id].selected"></button>
+<div class="greetings" :title="storage.tagList[uid].value">
+  <button v-html="setting?'☓':storage.tagList[uid].label"
+          :aria-selected="appData.selectList[uid]"
+          @click="appData.selectList[uid]=!appData.selectList[uid]"
+          @click.right.prevent="setting=!setting"
+          style="user-select: none"
+  ></button>
+  <span v-if="setting">
+    <input v-model="storage.tagList[uid].label">
+    <input v-model="storage.tagList[uid].value">
+    <button @click="storage.tagList[uid] = false">Del</button>
+  </span>
 </div>
 </template>
 
 <script setup lang="ts">
+import {storage, appData} from "@/utils";
+
 defineProps<{
-  id: number,
+  uid: string,
   // item: {
   //   label: String,
   //   value: String,
@@ -18,6 +28,7 @@ defineProps<{
 }>();
 
 const selected = ref(false);
+const setting = ref(false);
 
 import {onMounted, reactive, ref, watch, watchEffect} from "vue";
 

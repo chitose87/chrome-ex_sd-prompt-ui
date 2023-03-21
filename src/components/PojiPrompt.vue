@@ -3,8 +3,16 @@
   <details open v-for="(label,category) in appData.category">
     <summary>{{ label }}</summary>
     <div class="flex">
-      <div class="" v-for="(item,id) in appData.tagList" v-show="item.category==category">
-        <Tag v-if="item.category==category" :id="id"></Tag>
+      <div class=""
+           v-for="(item,id) in storage.tagList"
+           v-show="item.category==category">
+        <Tag v-if="item.category==category && storage.tagList[id]" :uid="id" :key="id"></Tag>
+      </div>
+
+      <div>
+        <span>+</span>
+        <input type="text" v-model="obj.addDic[category]">
+        <button @click="add(category)" :disabled="!obj.addDic[category]">追加</button>
       </div>
     </div>
   </details>
@@ -16,13 +24,26 @@
 //   msg: string
 // }>()
 
-import {onMounted, reactive, watch, watchEffect} from "vue";
-import {appData} from "../utils";
+import {onMounted, reactive, ref, watch, watchEffect} from "vue";
+import {appData, storage} from "../utils";
 import Tag from "./Tag.vue"
 
 const obj = reactive({
-  selected: []
+  selected: [],
+  addDic: <any>{}
 })
+
+const add = (category: string) => {
+  let value = obj.addDic[category];
+
+  let uid = Math.max(...Object.keys(storage.tagList).map(str => parseInt(str))) + 1;
+  storage.tagList[uid] = {
+    category: category,
+    label: value,
+    value: value
+  }
+  obj.addDic[category] = "";
+}
 
 const click = () => {
 }
@@ -31,16 +52,22 @@ watchEffect(() => {
   // console.log(appData.form.poji)
   // console.log()
   let arr = appData.form.poji.split(",");
-  let dic = <any>{};
-  for (let id in appData.tagList) {
-    dic[appData.tagList[id].value] = id;
+
+  let dic = <any>{};//valueをdicに
+  for (let id in storage.tagList) {
+    dic[storage.tagList[id].value] = id;
   }
   arr.forEach((value: string) => {
-    if (dic[value]) {
-      appData.tagList[dic[value]].selected = true;
-    } else if (value) {
-      appData.tagList[value] = {category: 0, label: value, value: value, selected: true}
+    let uid = dic[value];
+    if (!uid && value) {
+      uid = Math.max(...Object.keys(storage.tagList).map(str => parseInt(str))) + 1;
+      storage.tagList[uid] = {
+        category: 0,
+        label: value,
+        value: value
+      }
     }
+    appData.selectList[uid] = true;
   })
 })
 

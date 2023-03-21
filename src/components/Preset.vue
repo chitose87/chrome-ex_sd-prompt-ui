@@ -2,7 +2,7 @@
 <div>
   <span>Preset:</span>
   <select v-model="obj.select">
-    <option v-for="(item,key) in obj.option.list" v-html="key"></option>
+    <option v-for="(item,key) in storage.presets" v-html="key"></option>
   </select>
   <button @click="load">loed</button>
   <span>→</span>
@@ -18,42 +18,29 @@
 
 <script setup lang="ts">
 import {onMounted, reactive, watch, watchEffect} from "vue";
-import {appData, asyncPostMsg} from "../utils";
+import {appData, asyncPostMsg, storage} from "../utils";
 
 const obj = reactive({
   name: "",
   select: "",
-  option: {
-    current: "",
-    list: <any>{},
-  }
 })
 
 const click = () => {
 }
 
 onMounted(() => {
-  try {
-    obj.option = JSON.parse(localStorage.getItem("option") || "")
-  } catch (e) {
-  }
-  if (!obj.option.list) obj.option.list = {};
-  obj.select = obj.option.current;
 })
 
 const load = () => {
   try {
-    console.log(localStorage.getItem(obj.select))
-    let data = JSON.parse(localStorage.getItem(obj.select) || "");
-    obj.name = obj.select;
-
-    appData.tagList = data.tagList;
-
+    storage.currentPreset = obj.name = obj.select;
+    let preset = storage.presets[storage.currentPreset];
+    appData.selectList = preset.selects;
     // 本体に送信
     window.parent.postMessage({
       source: "iframe",
       method: "setOption",
-      option: JSON.stringify(data.option)
+      option: JSON.stringify(preset.option)
     }, "*");
 
   } catch (e) {
@@ -61,29 +48,25 @@ const load = () => {
   }
 }
 const save = () => {
-  console.log("save")
+  console.log("--->save")
+  let name = obj.name || "vvv";
+
+  storage.presets[name] = Object.assign(storage.presets[name] || {}, {
+    selects: appData.selectList,
+  })
+  storage.currentPreset = name;
+
   asyncPostMsg("getData")
     .then((data: any) => {
-      let name = obj.name || "vvv";
-      console.log("---",data.option)
-      localStorage.setItem(name, JSON.stringify({
-        tagList: appData.tagList,
-        option: data.option
-      }));
-      obj.option.list[name] = 1;
-      obj.option.current = name;
-      localStorage.setItem("option", JSON.stringify(obj.option));
-    });
+      console.log("---", data.option)
 
+      storage.presets[name].option = JSON.parse(data.option);
+    });
 }
 const deleate = () => {
   if (confirm(`${obj.name}を削除します`)) {
-    localStorage.removeItem(obj.name);
-
-    delete obj.option.list[obj.name]
-    if (obj.option.current == obj.name) obj.option.current = "";
-    localStorage.setItem("option", JSON.stringify(obj.option));
-    obj.name = "";
+    delete storage.presets[obj.name];
+    storage.currentPreset = "";
   }
 }
 

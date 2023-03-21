@@ -45,7 +45,7 @@
           break;
         case "setOption":
           console.log("-----", event.data.option)
-          let option = JSON.parse(JSON.parse(event.data.option));
+          let option = JSON.parse(event.data.option);
           console.log(option)
           compute("txt2img_neg_prompt textarea", option.nega, "input");
           compute("txt2img_steps input[type='range']", parseFloat(option.steps), "input");
