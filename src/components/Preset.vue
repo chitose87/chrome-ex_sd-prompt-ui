@@ -33,9 +33,11 @@ onMounted(() => {
 
 const load = () => {
   try {
-    storage.currentPreset = obj.name = obj.select;
+    storage.currentPreset = obj.select;
+    obj.name = obj.select;
+
     let preset = storage.presets[storage.currentPreset];
-    appData.selectList = preset.selects;
+    appData.selects = JSON.parse(JSON.stringify(preset.selects));
     // 本体に送信
     window.parent.postMessage({
       source: "iframe",
@@ -51,8 +53,16 @@ const save = () => {
   console.log("--->save")
   let name = obj.name || "vvv";
 
+  let arr = <any>{};
+  for (let id in appData.selects) {
+    let v = appData.selects[id];
+    if (v.active || v.pow != 1 || v.rate != 0) {
+      arr[id] = Object.assign({}, v);
+    }
+  }
+
   storage.presets[name] = Object.assign(storage.presets[name] || {}, {
-    selects: appData.selectList,
+    selects: arr,
   })
   storage.currentPreset = name;
 

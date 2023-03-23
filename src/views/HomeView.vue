@@ -28,21 +28,37 @@ onMounted(() => {
 });
 
 watchEffect(() => {
-  console.log("appData.selectList", appData.selectList);
+  console.log("appData.selects");
 
   let arr = <any>[];
-  for (let id in appData.selectList) {
+  for (let id in appData.selects) {
+    let state = appData.selects[id];
     let tag = storage.tagList[id]
-    if (appData.selectList[id] && tag) {
-      arr.push(tag.value);
+    if (state.active && tag) {
+      // arr.push(tag);
+      arr.push({
+        value:
+          (state.pow != 1 ? "(" : "") +
+          tag.value +
+          (state.pow != 1 ? `:${state.pow})` : ""),
+        rate: (state.rate || 0) + (state.pow / 100)
+      });
     }
   }
-  console.log(arr);
+  arr.sort((a: any, b: any) => {
+    return b.rate - a.rate;
+  });
+  let strArr = <string[]>[];
+  arr.forEach((item: any) => {
+    strArr.push(item.value);
+  });
+
+  console.log(strArr.join(","));
 
   window.parent.postMessage({
     source: "iframe",
     method: "setData",
-    poji: arr.join(","),
+    poji: strArr.join(","),
     // option: JSON.stringify(appData.form.option)
   }, "*");
 })

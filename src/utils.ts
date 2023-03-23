@@ -1,5 +1,6 @@
 import {reactive, watchEffect} from "vue";
 import {category, presetData} from "./presetData";
+import type {TagData, TagStatusData} from "./interface";
 
 export const appData = reactive({
   timestamp: 0,
@@ -9,14 +10,15 @@ export const appData = reactive({
     poji: "",
     option: <any>{}
   },
-  selectList: <any>{},
+  // selectList: <any>{},
+  selects: <{ [key: string]: TagStatusData }>{}
 });
 
 export const storage = reactive({
-  tagList: <any>{},
+  tagList: <{ [key: string]: TagData }>{},
   presets: <{
     [key: string]: {
-      selects: { [key: string]: boolean },
+      selects: { [key: string]: TagStatusData },
       option: string
     }
   }>{},
@@ -37,6 +39,7 @@ storage.tagList = Object.assign(presetData, storage.tagList);
 
 //
 watchEffect(() => {
+  console.log("storage")
   localStorage.setItem("system", JSON.stringify(storage))
 });
 

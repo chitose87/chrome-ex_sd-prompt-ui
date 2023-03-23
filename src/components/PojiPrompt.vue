@@ -30,7 +30,7 @@ import Tag from "./Tag.vue"
 
 const obj = reactive({
   selected: [],
-  addDic: <any>{}
+  addDic: <{ [key: string]: string }>{}
 })
 
 const add = (category: string) => {
@@ -58,6 +58,21 @@ watchEffect(() => {
     dic[storage.tagList[id].value] = id;
   }
   arr.forEach((value: string) => {
+    value = value.replace(/\s+/g, '');
+    let pow = 0;
+    if (value.substring(0, 1) == "(") {
+      value = value.match(/\(([^)]+)\)/)![1];
+      var split = value.split(":");
+      if (split.length > 1) {
+        pow = parseFloat(split[1]);
+        value = split[0];
+      }
+    }
+    // else if (value.substring(0, 1) == "<") {
+    //   var match = value.match(/<(.*?)>/)![1];
+    //   console.log(match); // "some text"
+    // }
+
     let uid = dic[value];
     if (!uid && value) {
       uid = Math.max(...Object.keys(storage.tagList).map(str => parseInt(str))) + 1;
@@ -67,7 +82,7 @@ watchEffect(() => {
         value: value
       }
     }
-    appData.selectList[uid] = true;
+    appData.selects[uid] = {active: true, pow: pow, rate: 0}
   })
 })
 
