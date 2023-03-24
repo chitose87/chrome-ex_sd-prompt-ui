@@ -1,6 +1,7 @@
 <template>
 <div class="HomeView">
   <button @click="refreash">refreash</button>
+  <button @click="batch">batch</button>
   <!--    <button @click="getData">受け取る</button>-->
   <!--  <button @click="setData">送る</button>-->
   <!--  <hr>-->
@@ -25,8 +26,11 @@ onMounted(() => {
       appData.form.poji = data.poji;
       // appData.form.option = JSON.parse(data.option);
     });
+
+
 });
 
+//メインの反映ロジック
 watchEffect(() => {
   console.log("appData.selects");
 
@@ -69,6 +73,10 @@ const refreash = () => {
       appData.form.poji = data.poji;
       // appData.form.option = JSON.parse(data.option);
     });
+}
+
+const batch = () => {
+  asyncPostMsg("batch");
 }
 </script>
 

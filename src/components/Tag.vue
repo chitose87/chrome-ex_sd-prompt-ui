@@ -17,8 +17,10 @@
   <span v-if="setting">
     <input v-model="storage.tagList[uid].label">
     <input v-model="storage.tagList[uid].value">
-    <input v-model="getSelect(uid).rate" type="number" placeholder="0" style="width: 3em" @change="update">
-    <input v-model="getSelect(uid).pow" type="number" placeholder="1" style="width: 3em" @change="update">
+    <span>:</span><input v-model="getSelect(uid).pow" type="number" placeholder="1" style="width: 2.5em"
+                         @change="update">
+    <span>↑</span><input v-model="getSelect(uid).rate" type="number" placeholder="0" style="width: 2.5em"
+                         @change="update">
     <!--    <button @click=" getSelect(uid)=false">Del</button>-->
   </span>
 </div>

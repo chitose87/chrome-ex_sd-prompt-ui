@@ -55,6 +55,66 @@
           compute("txt2img_cfg_scale input[type='range']", parseFloat(option.cfg), "input");
           compute("txt2img_seed input", parseFloat(option.seed));
           break;
+
+        case "batch":
+          /*
+          window.skb_batch_count=10;
+          window.skb_batch=()=>{
+            let prompt="a,b,c,";
+            let arr=[];
+            prompt.split(",").forEach((item)=>{
+              if(Math.random()<0.5)arr.push(item);
+            });
+            return {
+              prompt:arr.join(","),
+              // steps:27,
+              // sampling:"",
+              // cfg:1,
+              // seed:-1,
+            }
+          }
+          */
+          if (window.skb_batch) {
+            let prompt = rootElement.querySelector("#txt2img_prompt textarea").value;
+
+            let loop = (count) => {
+              let obj = window.skb_batch();
+              for (let i in obj) {
+                switch (i) {
+                  case "prompt":
+                    compute("txt2img_prompt textarea", prompt + obj.prompt, "input")
+                    break;
+                  case "steps":
+                    compute("txt2img_steps input[type='range']", parseFloat(option.steps), "input");
+                    break;
+                  case "sampling":
+                    compute("txt2img_sampling select", option.sampling);
+                    break;
+                  case "cfg":
+                    compute("txt2img_cfg_scale input[type='range']", parseFloat(option.cfg), "input");
+                    break;
+                  case "seed":
+                    compute("txt2img_seed input", parseFloat(option.seed));
+                    break;
+                }
+              }
+
+              //todo 実行
+              rootElement.querySelector("#txt2img_generate").dispatchEvent(new Event("click"));
+              let id = setInterval(() => {
+                if (rootElement.querySelector("#txt2img_skip").style.display != "display") {
+                  clearInterval(id);
+                  if (count--) loop(count);
+                  else {
+                    console.log("batch end")
+                  }
+                }
+              }, 10000)
+            }
+            loop(window.skb_batch_count || 10);
+          }
+
+          break;
       }
     }
   });

@@ -60,6 +60,7 @@ watchEffect(() => {
   arr.forEach((value: string) => {
     value = value.replace(/\s+/g, '');
     let pow = 0;
+    let kagi = false;
     if (value.substring(0, 1) == "(") {
       value = value.match(/\(([^)]+)\)/)![1];
       var split = value.split(":");
@@ -67,11 +68,15 @@ watchEffect(() => {
         pow = parseFloat(split[1]);
         value = split[0];
       }
+    } else if (value.substring(0, 1) == "<") {
+      value = value.match(/<(.*?)>/)![1];
+      kagi = true;
+      var split = value.split(":");
+      if (split.length > 1) {
+        pow = parseFloat(split[1]);
+        value = split[0];
+      }
     }
-    // else if (value.substring(0, 1) == "<") {
-    //   var match = value.match(/<(.*?)>/)![1];
-    //   console.log(match); // "some text"
-    // }
 
     let uid = dic[value];
     if (!uid && value) {
@@ -79,10 +84,10 @@ watchEffect(() => {
       storage.tagList[uid] = {
         category: 0,
         label: value,
-        value: value
+        value: value,
       }
     }
-    appData.selects[uid] = {active: true, pow: pow, rate: 0}
+    appData.selects[uid] = {active: true, pow: pow, rate: 0, kagi: kagi}
   })
 })
 

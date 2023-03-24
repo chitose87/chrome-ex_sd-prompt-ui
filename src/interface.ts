@@ -8,4 +8,5 @@ export interface TagStatusData {
   active: boolean;
   pow: number;
   rate: number;
+  kagi?: boolean;
 }
