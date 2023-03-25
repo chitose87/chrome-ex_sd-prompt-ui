@@ -38,7 +38,7 @@ watchEffect(() => {
       if (state.kagi) {
         arr.push({
           value: `<${tag.value}:${state.pow}>`,
-          rate: (state.rate || 0) + (state.pow / 100)
+          rate: (state.rate || 0) + (state.pow / 100)+100
         })
       } else {
         arr.push({

@@ -62,6 +62,8 @@ watchEffect(() => {
       if (split.length > 1) {
         pow = parseFloat(split[1]);
         value = split[0];
+      }else{
+        value="1.1";
       }
     } else if (value.substring(0, 1) == "<") {
       value = value.match(/<(.*?)>/)![1];
