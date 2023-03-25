@@ -29,6 +29,40 @@
   } catch (e) {
   }
 
+  window.addEventListener("skb_batch",(e)=>{
+    //console.log(rootElement.querySelector("#txt2img_skip").style.display)
+
+    if (rootElement.querySelector("#txt2img_skip").style.display != "block") {
+      let prompt= rootElement.querySelector("#txt2img_prompt textarea").value;
+      let obj=e.detail;
+      for (let i in obj) {
+        switch (i) {
+          case "prompt":
+            compute("txt2img_prompt textarea", prompt + obj.prompt, "input")
+            break;
+          case "steps":
+            compute("txt2img_steps input[type='range']", parseFloat(obj.steps), "input");
+            break;
+          case "sampling":
+            compute("txt2img_sampling select", obj.sampling);
+            break;
+          case "cfg":
+            compute("txt2img_cfg_scale input[type='range']", parseFloat(obj.cfg), "input");
+            break;
+          case "seed":
+            compute("txt2img_seed input", parseFloat(obj.seed));
+            break;
+        }
+      }
+
+      //todo 実行
+      rootElement.querySelector("#txt2img_generate").dispatchEvent(new Event("click"));
+      window.dispatchEvent(new Event("skb_batch_r"));
+      requestAnimationFrame(()=>{
+        compute("txt2img_prompt textarea", prompt, "input")
+      })
+    }
+  });
 
   //子から
   window.addEventListener("message", (event) => {
@@ -57,62 +91,72 @@
           break;
 
         case "batch":
-          /*
-          window.skb_batch_count=10;
-          window.skb_batch=()=>{
-            let prompt="a,b,c,";
-            let arr=[];
-            prompt.split(",").forEach((item)=>{
-              if(Math.random()<0.5)arr.push(item);
-            });
-            return {
-              prompt:arr.join(","),
-              // steps:27,
-              // sampling:"",
-              // cfg:1,
-              // seed:-1,
-            }
-          }
-          */
-          if (window.skb_batch) {
-            let prompt = rootElement.querySelector("#txt2img_prompt textarea").value;
-
-            let loop = (count) => {
-              let obj = window.skb_batch();
-              for (let i in obj) {
-                switch (i) {
-                  case "prompt":
-                    compute("txt2img_prompt textarea", prompt + obj.prompt, "input")
-                    break;
-                  case "steps":
-                    compute("txt2img_steps input[type='range']", parseFloat(option.steps), "input");
-                    break;
-                  case "sampling":
-                    compute("txt2img_sampling select", option.sampling);
-                    break;
-                  case "cfg":
-                    compute("txt2img_cfg_scale input[type='range']", parseFloat(option.cfg), "input");
-                    break;
-                  case "seed":
-                    compute("txt2img_seed input", parseFloat(option.seed));
-                    break;
-                }
-              }
-
-              //todo 実行
-              rootElement.querySelector("#txt2img_generate").dispatchEvent(new Event("click"));
-              let id = setInterval(() => {
-                if (rootElement.querySelector("#txt2img_skip").style.display != "display") {
-                  clearInterval(id);
-                  if (count--) loop(count);
-                  else {
-                    console.log("batch end")
-                  }
-                }
-              }, 10000)
-            }
-            loop(window.skb_batch_count || 10);
-          }
+//           if (__skb.batch) {
+//             let prompt = rootElement.querySelector("#txt2img_prompt textarea").value;
+//
+//             let loop = (count) => {
+//               let obj = __skb.batch.run();
+//               for (let i in obj) {
+//                 switch (i) {
+//                   case "prompt":
+//                     compute("txt2img_prompt textarea", prompt + obj.prompt, "input")
+//                     break;
+//                   case "steps":
+//                     compute("txt2img_steps input[type='range']", parseFloat(option.steps), "input");
+//                     break;
+//                   case "sampling":
+//                     compute("txt2img_sampling select", option.sampling);
+//                     break;
+//                   case "cfg":
+//                     compute("txt2img_cfg_scale input[type='range']", parseFloat(option.cfg), "input");
+//                     break;
+//                   case "seed":
+//                     compute("txt2img_seed input", parseFloat(option.seed));
+//                     break;
+//                 }
+//               }
+//
+//               //todo 実行
+//               rootElement.querySelector("#txt2img_generate").dispatchEvent(new Event("click"));
+//               let id = setInterval(() => {
+//                 if (rootElement.querySelector("#txt2img_skip").style.display != "display") {
+//                   clearInterval(id);
+//                   if (count--) loop(count);
+//                   else {
+//                     console.log("batch end")
+//                   }
+//                 }
+//               }, 10000)
+//             }
+//             loop(__skb.batch.count || 10);
+//           }else{
+//
+//             console.log(`
+//             let count=10;
+// let hoge=()=>{count--}
+// window.addEventListener("skb_batch_r",hoge)
+// let id=setInterval(()=>{
+// if(!count){
+//     clearInterval(id);
+//     window.removeEventListener("skb_batch_r",hoge);
+// }
+//   let prompt="Melancholy,Mysterious,kawaii";
+//   let arr=[];
+//   prompt.split(",").forEach((item)=>{
+//     if(Math.random()<0.5)arr.push(item);
+//   });
+//   let detail={
+//     prompt:arr.join(","),
+//     // steps:27,
+//     // sampling:"",
+//     // cfg:1,
+//     // seed:-1,
+//   }
+//   window.dispatchEvent(new CustomEvent("skb_batch",{detail:detail}))
+//     console.log(detail)
+// },1000)
+// `)
+//           }
 
           break;
       }

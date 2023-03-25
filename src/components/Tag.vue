@@ -8,9 +8,12 @@
   >
     <span v-if="setting">✓</span>
     <span v-else>
-      <span v-if="getSelect(uid).pow!=1">(</span>
+      <span v-if="getSelect(uid).kagi">&lt</span>
+      <span v-else-if="getSelect(uid).pow!=1">(</span>
       {{ storage.tagList[uid].label }}
-      <span v-if="getSelect(uid).pow!=1">:{{ getSelect(uid).pow }})</span>
+      <span v-if="getSelect(uid).pow!=1">:{{ getSelect(uid).pow }}</span>
+      <span v-if="getSelect(uid).kagi">&gt</span>
+      <span v-else-if="getSelect(uid).pow!=1">)</span>
       <span v-if="getSelect(uid).rate!=0">↑{{ getSelect(uid).rate }}</span>
     </span>
   </button>

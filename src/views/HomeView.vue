@@ -1,7 +1,8 @@
 <template>
 <div class="HomeView">
-  <button @click="refreash">refreash</button>
+  <button @click="refreash">現在値を取り込む</button>
   <button @click="batch">batch</button>
+  <button @click="resetLS">reset localStorage</button>
   <!--    <button @click="getData">受け取る</button>-->
   <!--  <button @click="setData">送る</button>-->
   <!--  <hr>-->
@@ -40,13 +41,20 @@ watchEffect(() => {
     let tag = storage.tagList[id]
     if (state.active && tag) {
       // arr.push(tag);
-      arr.push({
-        value:
-          (state.pow != 1 ? "(" : "") +
-          tag.value +
-          (state.pow != 1 ? `:${state.pow})` : ""),
-        rate: (state.rate || 0) + (state.pow / 100)
-      });
+      if(state.kagi){
+        arr.push({
+          value:`<${tag.value}:${state.pow}>`,
+          rate: (state.rate || 0) + (state.pow / 100)
+        })
+      }else{
+        arr.push({
+          value:
+            (state.pow != 1 ? "(" : "") +
+            tag.value +
+            (state.pow != 1 ? `:${state.pow})` : ""),
+          rate: (state.rate || 0) + (state.pow / 100)
+        });
+      }
     }
   }
   arr.sort((a: any, b: any) => {
@@ -77,6 +85,10 @@ const refreash = () => {
 
 const batch = () => {
   asyncPostMsg("batch");
+}
+
+const resetLS=()=>{
+  localStorage.clear();
 }
 </script>
 

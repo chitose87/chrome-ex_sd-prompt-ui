@@ -58,8 +58,8 @@ watchEffect(() => {
     dic[storage.tagList[id].value] = id;
   }
   arr.forEach((value: string) => {
-    value = value.replace(/\s+/g, '');
-    let pow = 0;
+    //value = value.replace(/\s+/g, '');
+    let pow = 1;
     let kagi = false;
     if (value.substring(0, 1) == "(") {
       value = value.match(/\(([^)]+)\)/)![1];
@@ -72,9 +72,9 @@ watchEffect(() => {
       value = value.match(/<(.*?)>/)![1];
       kagi = true;
       var split = value.split(":");
-      if (split.length > 1) {
-        pow = parseFloat(split[1]);
-        value = split[0];
+      if (split.length > 2) {
+        pow = parseFloat(split[2]);
+        value = split[0]+":"+split[1];
       }
     }
 
