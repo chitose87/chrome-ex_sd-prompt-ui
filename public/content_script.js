@@ -23,9 +23,15 @@
   height:100%;
   `);
   iframe.src = chrome.runtime.getURL("index.html");
+  const style=document.createElement("style");
+  style.innerText=`
+  body{
+    padding-left: 300px !important;
+    box-sizing: border-box;
+  }`;
+  div.prepend(style)
   div.prepend(iframe)
 
-  document.body.setAttribute("style", "padding-left: 300px;")
   document.body.prepend(div);
 
   // methods
