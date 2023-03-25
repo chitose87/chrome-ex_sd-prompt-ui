@@ -9,17 +9,23 @@
 
   // set up dom
   const div = document.createElement("div")
-  div.innerHTML = `<textarea style='width: 20px; border: 0;resize: vertical'></textarea>`;
+  // div.innerHTML = `<textarea style='width: 20px; border: 0;resize: vertical'></textarea>`;
   div.setAttribute("style", `
-    display: flex;
+    position: fixed;
+    left:0;
+    top:0
+    width: 300px;
+    height: 100%;
 `)
   const iframe = document.createElement("iframe");
   iframe.setAttribute("style", `
   width:100%;
+  height:100%;
   `);
   iframe.src = chrome.runtime.getURL("index.html");
   div.prepend(iframe)
 
+  document.body.setAttribute("style", "padding-left: 300px;")
   document.body.prepend(div);
 
   // methods
@@ -29,12 +35,12 @@
   } catch (e) {
   }
 
-  window.addEventListener("skb_batch",(e)=>{
+  window.addEventListener("skb_batch", (e) => {
     //console.log(rootElement.querySelector("#txt2img_skip").style.display)
 
     if (rootElement.querySelector("#txt2img_skip").style.display != "block") {
-      let prompt= rootElement.querySelector("#txt2img_prompt textarea").value;
-      let obj=e.detail;
+      let prompt = rootElement.querySelector("#txt2img_prompt textarea").value;
+      let obj = e.detail;
       for (let i in obj) {
         switch (i) {
           case "prompt":
@@ -58,7 +64,7 @@
       //todo 実行
       rootElement.querySelector("#txt2img_generate").dispatchEvent(new Event("click"));
       window.dispatchEvent(new Event("skb_batch_r"));
-      requestAnimationFrame(()=>{
+      requestAnimationFrame(() => {
         compute("txt2img_prompt textarea", prompt, "input")
       })
     }

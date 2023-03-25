@@ -1,19 +1,19 @@
-<template>
-<div>
-  <span>Preset:</span>
-  <select v-model="obj.select">
-    <option v-for="(item,key) in storage.presets" v-html="key"></option>
-  </select>
-  <button @click="load">loed</button>
-  <span>→</span>
+<template lang="pug">
+.preset.mt-4
+  .input-group
+    label.form-label Preset:
+    select.form-control.form-control-sm(v-model="obj.select")
+      option(v-for="(item,key) in storage.presets" v-html="key")
+    button.btn.btn-primary.btn-sm(@click="load") loed
 
-  <input type="text" v-model="obj.name">
-  <button @click="save">save</button>
-  <button @click="deleate">☓</button>
-  <!--  <span>|</span>-->
-  <!--  <button @click="fileExport">export</button>-->
-  <!--  <button @click="fileImport">import</button>-->
-</div>
+  .text-center
+    span ↓
+
+  .input-group
+    button.btn.btn-danger.btn-sm(@click="deleate") ☓
+    input.form-control.form-control-sm(type="text" v-model="obj.name")
+    button.btn.btn-primary.btn-sm(@click="save") save
+
 </template>
 
 <script setup lang="ts">

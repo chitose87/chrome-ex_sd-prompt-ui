@@ -1,22 +1,17 @@
-<template>
-<div>
-  <details open v-for="(label,category) in appData.category">
-    <summary>{{ label }}</summary>
-    <div class="flex">
-      <div class=""
-           v-for="(item,id) in storage.tagList"
-           v-show="item.category==category">
-        <Tag v-if="item.category==category && storage.tagList[id]" :uid="id" :key="id"></Tag>
-      </div>
+<template lang="pug">
+.poji-prompt
+  details(open v-for="(label,category) in appData.category")
+    summary.mt-3.mb-2
+      h4.d-inline {{ label }}
+    .flex
+      div(v-for="(item,id) in storage.tagList" v-show="item.category==category")
+        Tag(v-if="item.category==category && storage.tagList[id]" :uid="id" :key="id")
 
-      <div>
-        <span>+</span>
-        <input type="text" v-model="obj.addDic[category]">
-        <button @click="add(category)" :disabled="!obj.addDic[category]">追加</button>
-      </div>
-    </div>
-  </details>
-</div>
+      .input-group
+        span +
+        input.form-control.form-control-sm(type="text" v-model="obj.addDic[category]")
+        button.btn.btn-primary.btn-sm(@click="add(category)" :disabled="!obj.addDic[category]") 追加
+
 </template>
 
 <script setup lang="ts">
@@ -33,7 +28,7 @@ const obj = reactive({
   addDic: <{ [key: string]: string }>{}
 })
 
-const add = (category: string) => {
+const add = (category: string | number) => {
   let value = obj.addDic[category];
 
   let uid = Math.max(...Object.keys(storage.tagList).map(str => parseInt(str))) + 1;
@@ -74,7 +69,7 @@ watchEffect(() => {
       var split = value.split(":");
       if (split.length > 2) {
         pow = parseFloat(split[2]);
-        value = split[0]+":"+split[1];
+        value = split[0] + ":" + split[1];
       }
     }
 

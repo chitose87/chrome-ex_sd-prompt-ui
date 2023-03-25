@@ -1,19 +1,15 @@
-<template>
-<div class="HomeView">
-  <button @click="refreash">現在値を取り込む</button>
-  <button @click="batch">batch</button>
-  <button @click="resetLS">reset localStorage</button>
-  <!--    <button @click="getData">受け取る</button>-->
-  <!--  <button @click="setData">送る</button>-->
-  <!--  <hr>-->
-  <Preset></Preset>
-  <PojiPrompt></PojiPrompt>
-  <!--  <h2>home</h2>-->
-  <!--  <div>-->
-  <!--    <input v-model="color" type="color" @update:model-value="changeColor($event)"/>-->
-  <!--  </div>-->
-</div>
+<template lang="pug">
+.HomeView
+  button.btn.btn-primary.btn-sm(@click="refreash") 現在値を取り込む
+  button.btn.btn-primary.btn-sm(@click="resetLS") clear tagList
+
+  Preset
+  PojiPrompt
 </template>
+
+<style lang="scss">
+//@import "bootstrap";
+</style>
 
 <script setup lang="ts">
 import {onMounted, ref, watchEffect} from 'vue'
@@ -27,8 +23,6 @@ onMounted(() => {
       appData.form.poji = data.poji;
       // appData.form.option = JSON.parse(data.option);
     });
-
-
 });
 
 //メインの反映ロジック
@@ -41,12 +35,12 @@ watchEffect(() => {
     let tag = storage.tagList[id]
     if (state.active && tag) {
       // arr.push(tag);
-      if(state.kagi){
+      if (state.kagi) {
         arr.push({
-          value:`<${tag.value}:${state.pow}>`,
+          value: `<${tag.value}:${state.pow}>`,
           rate: (state.rate || 0) + (state.pow / 100)
         })
-      }else{
+      } else {
         arr.push({
           value:
             (state.pow != 1 ? "(" : "") +
@@ -87,8 +81,12 @@ const batch = () => {
   asyncPostMsg("batch");
 }
 
-const resetLS=()=>{
-  localStorage.clear();
+const resetLS = () => {
+  localStorage.setItem("system",
+    JSON.stringify(
+      Object.assign(JSON.parse(localStorage.getItem("system") || "{}"),
+        {tagList: {}})
+    ))
 }
 </script>
 
