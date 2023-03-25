@@ -30,16 +30,14 @@ watchEffect(() => {
   console.log("appData.selects");
 
   let arr = <any>[];
+  let rola=<any>[];
   for (let id in appData.selects) {
     let state = appData.selects[id];
     let tag = storage.tagList[id]
     if (state.active && tag) {
       // arr.push(tag);
       if (state.kagi) {
-        arr.push({
-          value: `<${tag.value}:${state.pow}>`,
-          rate: (state.rate || 0) + (state.pow / 100)+100
-        })
+        rola.push(`<${tag.value}:${state.pow}>`)
       } else {
         arr.push({
           value:
@@ -59,12 +57,12 @@ watchEffect(() => {
     strArr.push(item.value);
   });
 
-  console.log(strArr.join(","));
+  // console.log(strArr.join(","));
 
   window.parent.postMessage({
     source: "iframe",
     method: "setData",
-    poji: strArr.join(","),
+    poji: rola.join(" ")+" "+strArr.join(","),
     // option: JSON.stringify(appData.form.option)
   }, "*");
 })
