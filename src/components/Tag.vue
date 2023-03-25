@@ -17,10 +17,13 @@
     span(v-if="getSelect(uid).rate!=0") ↑{{ getSelect(uid).rate }}
 
   span.input-group.flex-1(v-if="setting")
-    span.ml-1.mr-1 :
-    input.form-control.form-control-sm(v-model="getSelect(uid).pow" type="number" placeholder="1" style="width: 2.5em" @change="update")
-    span.ml-1.mr-1 ↑
-    input.form-control.form-control-sm(v-model="getSelect(uid).rate" type="number" placeholder="0" style="width: 2.5em" @change="update")
+    span :
+    input.form-control.form-control-sm(v-model="getSelect(uid).pow" type="number" placeholder="1" @change="update")
+    span ↑
+    input.form-control.form-control-sm(v-model="getSelect(uid).rate" type="number" placeholder="0" @change="update")
+    input.form-check-input(
+      type="checkbox"
+      v-model="getSelect(uid).kagi" @change="update")
 
   span.input-group.mt-1.mb-2(v-if="setting")
     input.form-control.form-control-sm(v-model="storage.tagList[uid].label")
