@@ -100,6 +100,9 @@
           compute("txt2img_height input[type='range']", parseFloat(option.height), "input");
           compute("txt2img_cfg_scale input[type='range']", parseFloat(option.cfg), "input");
           compute("txt2img_seed input", parseFloat(option.seed));
+          compute("setting_outdir_txt2img_samples textarea",option.t2i, "input")
+          compute("setting_outdir_img2img_samples textarea",option.i2i, "input")
+          compute("setting_outdir_extras_samples textarea",option.ex, "input")
           break;
 
         case "batch":
@@ -200,6 +203,9 @@
           height: compute("txt2img_height input"),
           cfg: compute("txt2img_cfg_scale input"),
           seed: compute("txt2img_seed input"),
+          t2i: compute("setting_outdir_txt2img_samples textarea"),
+          i2i: compute("setting_outdir_img2img_samples textarea"),
+          ex: compute("setting_outdir_extras_samples textarea"),
         })
       },
       "*"
